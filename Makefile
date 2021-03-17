@@ -1,5 +1,5 @@
 #
-# Buttercup compiler - Project make file:
+# Drac compiler - Project make file:
 # Copyright (C) 2013-2021 Ariel Ortiz, ITESM CEM
 #
 # This program is free software: you can redistribute it and/or modify
@@ -16,10 +16,10 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 
-buttercup.exe: Driver.cs Scanner.cs Token.cs TokenCategory.cs
+drac.exe: Driver.cs Scanner.cs Token.cs TokenCategory.cs
 
-	mcs -out:buttercup.exe Driver.cs Scanner.cs Token.cs TokenCategory.cs
+	mcs -out:drac.exe Driver.cs Scanner.cs Token.cs TokenCategory.cs
 
 clean:
 
-	rm -f buttercup.exe
+	rm -f drac.exe
