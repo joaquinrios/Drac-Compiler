@@ -17,6 +17,7 @@ namespace Drac
         FALSE,
         IDENTIFIER,
         IF,
+        ILLEGAR_CHAR,
         INC,
         INT_LITERAL,
         LESS,

@@ -134,8 +134,15 @@ namespace Drac {
                     row++;
                     columnStart = m.Index + m.Length;
 
+                } else if (m.Groups["MultiComment"].Success) {
+
+                    // Count lines of multi-line comment
+                    string[] lines = m.Value.Split("\n");
+                    row+= lines.Length;
+                    columnStart = lines[^1].Length;
+
                 } else if (m.Groups["WhiteSpace"].Success
-                    || m.Groups["Comment"].Success) {
+                    || m.Groups["SingleComment"].Success) {
 
                     // Skip white space and comments.
 
