@@ -1,3 +1,10 @@
+/*
+  Authors:
+  Irving Fuentes Aguilera A01745759
+  Joaquin Rios Corvera A01375441
+  Jordan Gonzalez Bustamante A01745993
+*/
+
 namespace Drac
 {
     enum TokenCategory
@@ -25,7 +32,6 @@ namespace Drac
         INT_LITERAL,
         LESS,
         LESS_EQUAL,
-        MAIN,
         MORE,
         MORE_EQUAL,
         MUL,

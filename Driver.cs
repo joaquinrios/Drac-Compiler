@@ -1,6 +1,9 @@
 /*
-  Buttercup compiler - Program driver.
-  Copyright (C) 2013-2021 Ariel Ortiz, ITESM CEM
+  Drac compiler - Program driver.
+  Authors:
+  Irving Fuentes Aguilera A01745759
+  Joaquin Rios Corvera A01375441
+  Jordan Gonzalez Bustamante A01745993
 
   This program is free software: you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by

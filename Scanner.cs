@@ -1,7 +1,11 @@
 /*
-  Buttercup compiler - This class performs the lexical analysis,
+  Drac compiler - This class performs the lexical analysis,
   (a.k.a. scanning).
-  Copyright (C) 2013-2021 Ariel Ortiz, ITESM CEM
+  
+  Authors:
+  Irving Fuentes Aguilera A01745759
+  Joaquin Rios Corvera A01375441
+  Jordan Gonzalez Bustamante A01745993
 
   This program is free software: you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -33,44 +37,43 @@ namespace Drac {
               | (?<MultiComment>     [(][*](.|\n)*?[*][)]  )
               | (?<NewLine>     \n          )
               | (?<WhiteSpace>  \s          )
-              | (?<CharLiteral>  '[^'""\\]'|'\\([nrt\\'""]|u[a-f0-9]{6})')
-              | (?<StringLiteral>  ""([^'""\\]|\\([nrt\\'""]|u[a-f0-9]{6}))*"")
+              | (?<CharLiteral>  '[^'\\\n]'|'\\([nrt\\'""]|u[a-fA-F0-9]{6})')
+              | (?<StringLiteral>  ""([^""\\\n]|\\([nrt\\'""]|u[a-fA-F0-9]{6}))*"")
               | (?<IntLiteral>  -?\d+       )
-              | (?<And>         and         )
+              | (?<And>         and\b         )
               | (?<Assign>       =          )
               | (?<BracketOpen>  [{]         )
               | (?<BracketClose> [}]         )  
-              | (?<Break>       break       )
+              | (?<Break>       break\b       )
               | (?<Comma>         ,         )
-              | (?<Dec>         dec         )
+              | (?<Dec>         dec\b         )
               | (?<Div>         [/]         )
-              | (?<Do>          do          )
-              | (?<Elif>        elif        )
-              | (?<Else>        else        )
-              | (?<False>       false       )
-              | (?<If>          if          )
-              | (?<Inc>         inc         )
+              | (?<Do>          do\b          )
+              | (?<Elif>        elif\b        )
+              | (?<Else>        else\b        )
+              | (?<False>       false\b       )
+              | (?<If>          if\b          )
+              | (?<Inc>         inc\b         )
               | (?<LessEqual>   <=          )
               | (?<Less>        [<]         )
-              | (?<Main>        main        )
               | (?<MoreEqual>   >=          )
               | (?<More>        [>]         )
               | (?<Equals>      ==          )
               | (?<Mul>         [*]         )
-              | (?<Not>         not         )
+              | (?<Not>         not\b         )
               | (?<Neg>         [-]         )
-              | (?<Or>          or          )
+              | (?<Or>          or\b          )
               | (?<ParenthesisOpen>     [(] )
               | (?<ParenthesisClose>    [)] )
               | (?<Plus>        [+]         )
               | (?<Remainder>   [%]         )
-              | (?<Return>      return      )
+              | (?<Return>      return\b      )
               | (?<Semicolon>      ;        )
               | (?<SquareBracketOpen>  \[   )
               | (?<SquareBracketClose> \]   )
-              | (?<True>        true        )
-              | (?<Var>         var         )
-              | (?<While>       while       )
+              | (?<True>        true\b        )
+              | (?<Var>         var\b         )
+              | (?<While>       while\b       )
               | (?<Identifier>  [a-zA-Z]\w* )
               | (?<Other>      .           )     # Must be last: match any other character.
             ",
@@ -101,7 +104,6 @@ namespace Drac {
                 {"IntLiteral",TokenCategory.INT_LITERAL},
                 {"Less", TokenCategory.LESS},
                 {"LessEqual", TokenCategory.LESS_EQUAL},
-                {"Main", TokenCategory.MAIN},
                 {"More", TokenCategory.MORE},
                 {"MoreEqual", TokenCategory.MORE_EQUAL},
                 {"Mul", TokenCategory.MUL},

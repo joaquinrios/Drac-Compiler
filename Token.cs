@@ -1,6 +1,10 @@
 /*
-  Buttercup compiler - Token class for the scanner.
-  Copyright (C) 2013-2020 Ariel Ortiz, ITESM CEM
+  Drac compiler - Token class for the scanner.
+
+  Authors:
+  Irving Fuentes Aguilera A01745759
+  Joaquin Rios Corvera A01375441
+  Jordan Gonzalez Bustamante A01745993
 
   This program is free software: you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by

@@ -1,6 +1,8 @@
-# Buttercup compiler, version 0.1
+# Drac compiler, version 0.1
 
 This program is free software. You may redistribute it under the terms of the GNU General Public License version 3 or later. See `license.txt` for details.
+
+This Drac compiler is built upon a Buttercup compiler developed by Ariel Ortiz. 
 
 Included in this release:
 
@@ -16,12 +18,12 @@ At the terminal type:
 
 At the terminal type:
 
-    mono buttercup.exe <buttercup_source_file>
+    mono buttercup.exe <drac_source_file>
 
-Where `<buttercup_source_file>` is the name of a Buttercup source file. You can try with these files:
+Where `<drac_source_file>` is the name of a Drac source file. You can try with these files:
 
-* `prog1.bcup`
-* `prog2.bcup`
+* `prog1.drac`
+* `prog2.drac`
 
 ## How to Clean
 
