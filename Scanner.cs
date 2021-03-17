@@ -37,8 +37,8 @@ namespace Drac {
               | (?<StringLiteral>  ""([^'""\\]|\\([nrt\\'""]|u[a-f0-9]{6}))*"")
               | (?<IntLiteral>  -?\d+       )
               | (?<And>)        and         )
-              | (?<BracketLeft) [{]         )
-              | (?<BracketRight)[}]         )  
+              | (?<BracketOpen) [{]         )
+              | (?<BracketClose)[}]         )  
               | (?<Break>)      break       )
               | (?<Dec>         dec         )
               | (?<Div>         [/]         )
@@ -58,13 +58,13 @@ namespace Drac {
               | (?<Not>         not         )
               | (?<Neg>         [-]         )
               | (?<Or>          or          )
-              | (?<ParLeft>     [(]         )
-              | (?<ParRight>    [)]         )
+              | (?<ParenthesisOpen>     [(] )
+              | (?<ParenthesisClose>    [)] )
               | (?<Plus>        [+]         )
               | (?<Remainder>   [%]         )
               | (?<Return>      return      )
-              | (?<SquareLeft>  \[          )
-              | (?<SquareRight> \]          )
+              | (?<SquareBracketOpen>  \[   )
+              | (?<SquareBracketClose> \]   )
               | (?<True>        true        )
               | (?<Var>         var         )
               | (?<While>       while       )
@@ -79,8 +79,8 @@ namespace Drac {
         static readonly IDictionary<string, TokenCategory> tokenMap =
             new Dictionary<string, TokenCategory>() {
                 {"And", TokenCategory.AND},
-                {"BracketLeft", TokenCategory.BRACKET_OPEN},
-                {"BracketRight",TokenCategory.BRACKET_CLOSE},
+                {"BracketOpen", TokenCategory.BRACKET_OPEN},
+                {"BracketClose",TokenCategory.BRACKET_CLOSE},
                 {"Break",TokenCategory.BREAK},
                 {"CharLiteral",TokenCategory.CHAR_LITERAL},
                 {"Dec",TokenCategory.DEC},
@@ -94,6 +94,27 @@ namespace Drac {
                 {"If",TokenCategory.IF},
                 {"Inc",TokenCategory.INC},
                 {"IntLiteral",TokenCategory.INT_LITERAL},
+                {"Less", TokenCategory.LESS},
+                {"LessEqual", TokenCategory.LESS_EQUAL},
+                {"Main", TokenCategory.MAIN},
+                {"More", TokenCategory.MORE},
+                {"MoreEqual", TokenCategory.MORE_EQUAL},
+                {"Mul", TokenCategory.MUL},
+                {"MultiComment", TokenCategory.MULTI_COMMENT},
+                {"Not", TokenCategory.NOT},
+                {"Neg", TokenCategory.NEG},
+                {"Or", TokenCategory.OR},
+                {"ParenthesisOpen", TokenCategory.PARENTHESIS_OPEN},
+                {"ParenthesisClose", TokenCategory.PARENTHESIS_CLOSE},
+                {"Plus", TokenCategory.PLUS},
+                {"Remainder", TokenCategory.REMAINDER},
+                {"Return", TokenCategory.RETURN},
+                {"StringLiteral", TokenCategory.STRING_LITERAL},
+                {"SquareBracketOpen", TokenCategory.SQUARE_BRACKET_OPEN},
+                {"SquareBracketClose", TokenCategory.SQUARE_BRACKET_CLOSE},
+                {"True", TokenCategory.TRUE},
+                {"Var", TokenCategory.VAR},
+                {"While", TokenCategory.WHILE}
             };
 
         public Scanner(string input) {
