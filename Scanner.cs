@@ -29,17 +29,19 @@ namespace Drac {
 
         static readonly Regex regex = new Regex(
             @"
-                (?<SingleComment>     --    )
-              | (?<MultiComment>     [(][*](.|\n)*[*][)]  )
+                (?<SingleComment>     --.*    )
+              | (?<MultiComment>     [(][*](.|\n)*?[*][)]  )
               | (?<NewLine>     \n          )
               | (?<WhiteSpace>  \s          )
               | (?<CharLiteral>  '[^'""\\]'|'\\([nrt\\'""]|u[a-f0-9]{6})')
               | (?<StringLiteral>  ""([^'""\\]|\\([nrt\\'""]|u[a-f0-9]{6}))*"")
               | (?<IntLiteral>  -?\d+       )
-              | (?<And>)        and         )
-              | (?<BracketOpen) [{]         )
-              | (?<BracketClose)[}]         )  
-              | (?<Break>)      break       )
+              | (?<And>         and         )
+              | (?<Assign>       =          )
+              | (?<BracketOpen>  [{]         )
+              | (?<BracketClose> [}]         )  
+              | (?<Break>       break       )
+              | (?<Comma>         ,         )
               | (?<Dec>         dec         )
               | (?<Div>         [/]         )
               | (?<Do>          do          )
@@ -63,13 +65,14 @@ namespace Drac {
               | (?<Plus>        [+]         )
               | (?<Remainder>   [%]         )
               | (?<Return>      return      )
+              | (?<Semicolon>      ;        )
               | (?<SquareBracketOpen>  \[   )
               | (?<SquareBracketClose> \]   )
               | (?<True>        true        )
               | (?<Var>         var         )
               | (?<While>       while       )
               | (?<Identifier>  [a-zA-Z]\w* )
-              | (?<Other>      .*           )     # Must be last: match any other character.
+              | (?<Other>      .           )     # Must be last: match any other character.
             ",
             RegexOptions.IgnorePatternWhitespace
                 | RegexOptions.Compiled
@@ -79,10 +82,12 @@ namespace Drac {
         static readonly IDictionary<string, TokenCategory> tokenMap =
             new Dictionary<string, TokenCategory>() {
                 {"And", TokenCategory.AND},
+                {"Assign", TokenCategory.ASSIGN},
                 {"BracketOpen", TokenCategory.BRACKET_OPEN},
                 {"BracketClose",TokenCategory.BRACKET_CLOSE},
                 {"Break",TokenCategory.BREAK},
                 {"CharLiteral",TokenCategory.CHAR_LITERAL},
+                {"Comma", TokenCategory.COMMA},
                 {"Dec",TokenCategory.DEC},
                 {"Div",TokenCategory.DIV},
                 {"Do",TokenCategory.DO},
@@ -100,7 +105,6 @@ namespace Drac {
                 {"More", TokenCategory.MORE},
                 {"MoreEqual", TokenCategory.MORE_EQUAL},
                 {"Mul", TokenCategory.MUL},
-                {"MultiComment", TokenCategory.MULTI_COMMENT},
                 {"Not", TokenCategory.NOT},
                 {"Neg", TokenCategory.NEG},
                 {"Or", TokenCategory.OR},
@@ -109,6 +113,7 @@ namespace Drac {
                 {"Plus", TokenCategory.PLUS},
                 {"Remainder", TokenCategory.REMAINDER},
                 {"Return", TokenCategory.RETURN},
+                {"Semicolon", TokenCategory.SEMICOLON},
                 {"StringLiteral", TokenCategory.STRING_LITERAL},
                 {"SquareBracketOpen", TokenCategory.SQUARE_BRACKET_OPEN},
                 {"SquareBracketClose", TokenCategory.SQUARE_BRACKET_CLOSE},
@@ -129,7 +134,7 @@ namespace Drac {
 
             foreach (Match m in regex.Matches(input)) {
 
-                if (m.Groups["Newline"].Success) {
+                if (m.Groups["NewLine"].Success) {
 
                     row++;
                     columnStart = m.Index + m.Length;
@@ -138,8 +143,8 @@ namespace Drac {
 
                     // Count lines of multi-line comment
                     string[] lines = m.Value.Split("\n");
-                    row+= lines.Length;
-                    columnStart = lines[^1].Length;
+                    row+= lines.Length - 1;
+                    columnStart = lines[lines.Length-1].Length;
 
                 } else if (m.Groups["WhiteSpace"].Success
                     || m.Groups["SingleComment"].Success) {
