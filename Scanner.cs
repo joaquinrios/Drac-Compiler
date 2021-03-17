@@ -21,7 +21,7 @@ using System;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
 
-namespace Buttercup {
+namespace Drac {
 
     class Scanner {
 
@@ -29,28 +29,47 @@ namespace Buttercup {
 
         static readonly Regex regex = new Regex(
             @"
-                (?<Comment>    ;.*       )
-              | (?<Newline>    \n        )
-              | (?<WhiteSpace> \s        )     # Must go after Newline.
-              | (?<And>        [&]       )
-              | (?<Less>       [<]       )
-              | (?<Plus>       [+]       )
-              | (?<Mul>        [*]       )
-              | (?<Neg>        [-]       )
-              | (?<ParLeft>    [(]       )
-              | (?<ParRight>   [)]       )
-              | (?<Assign>     [=]       )
-              | (?<True>       [#]t      )
-              | (?<False>      [#]f      )
-              | (?<IntLiteral> \d+       )
-              | (?<Bool>       bool      )
-              | (?<End>        end       )
-              | (?<If>         if        )
-              | (?<Int>        int       )
-              | (?<Print>      print     )
-              | (?<Then>       then      )
-              | (?<Identifier> [a-zA-Z]+ )     # Must go after all keywords
-              | (?<Other>      .         )     # Must be last: match any other character.
+                (?<SingleComment>     --    )
+              | (?<MultiComment>     [(][*](.|\n)*[*][)]  )
+              | (?<NewLine>     \n          )
+              | (?<WhiteSpace>  \s          )
+              | (?<CharLiteral>  '[^'""\\]'|'\\([nrt\\'""]|u[a-f0-9]{6})')
+              | (?<StringLiteral>  ""([^'""\\]|\\([nrt\\'""]|u[a-f0-9]{6}))*"")
+              | (?<IntLiteral>  -?\d+       )
+              | (?<And>)        and         )
+              | (?<BracketLeft) [{]         )
+              | (?<BracketRight)[}]         )  
+              | (?<Break>)      break       )
+              | (?<Dec>         dec         )
+              | (?<Div>         [/]         )
+              | (?<Do>          do          )
+              | (?<Elif>        elif        )
+              | (?<Else>        else        )
+              | (?<False>       false       )
+              | (?<If>          if          )
+              | (?<Inc>         inc         )
+              | (?<LessEqual>   <=          )
+              | (?<Less>        [<]         )
+              | (?<Main>        main        )
+              | (?<MoreEqual>   >=          )
+              | (?<More>        [>]         )
+              | (?<Equals>      ==          )
+              | (?<Mul>         [*]         )
+              | (?<Not>         not         )
+              | (?<Neg>         [-]         )
+              | (?<Or>          or          )
+              | (?<ParLeft>     [(]         )
+              | (?<ParRight>    [)]         )
+              | (?<Plus>        [+]         )
+              | (?<Remainder>   [%]         )
+              | (?<Return>      return      )
+              | (?<SquareLeft>  \[          )
+              | (?<SquareRight> \]          )
+              | (?<True>        true        )
+              | (?<Var>         var         )
+              | (?<While>       while       )
+              | (?<Identifier>  [a-zA-Z]\w* )
+              | (?<Other>      .*           )     # Must be last: match any other character.
             ",
             RegexOptions.IgnorePatternWhitespace
                 | RegexOptions.Compiled
@@ -60,23 +79,21 @@ namespace Buttercup {
         static readonly IDictionary<string, TokenCategory> tokenMap =
             new Dictionary<string, TokenCategory>() {
                 {"And", TokenCategory.AND},
-                {"Less", TokenCategory.LESS},
-                {"Plus", TokenCategory.PLUS},
-                {"Mul", TokenCategory.MUL},
-                {"Neg", TokenCategory.NEG},
-                {"ParLeft", TokenCategory.PARENTHESIS_OPEN},
-                {"ParRight", TokenCategory.PARENTHESIS_CLOSE},
-                {"Assign", TokenCategory.ASSIGN},
-                {"True", TokenCategory.TRUE},
-                {"False", TokenCategory.FALSE},
-                {"IntLiteral", TokenCategory.INT_LITERAL},
-                {"Bool", TokenCategory.BOOL},
-                {"End", TokenCategory.END},
-                {"If", TokenCategory.IF},
-                {"Int", TokenCategory.INT},
-                {"Print", TokenCategory.PRINT},
-                {"Then", TokenCategory.THEN},
-                {"Identifier", TokenCategory.IDENTIFIER}
+                {"BracketLeft", TokenCategory.BRACKET_OPEN},
+                {"BracketRight",TokenCategory.BRACKET_CLOSE},
+                {"Break",TokenCategory.BREAK},
+                {"CharLiteral",TokenCategory.CHAR_LITERAL},
+                {"Dec",TokenCategory.DEC},
+                {"Div",TokenCategory.DIV},
+                {"Do",TokenCategory.DO},
+                {"Elif",TokenCategory.ELIF},
+                {"Else",TokenCategory.ELSE},
+                {"Equals",TokenCategory.EQUALS},
+                {"False",TokenCategory.FALSE},
+                {"Identifier",TokenCategory.IDENTIFIER},
+                {"If",TokenCategory.IF},
+                {"Inc",TokenCategory.INC},
+                {"IntLiteral",TokenCategory.INT_LITERAL},
             };
 
         public Scanner(string input) {

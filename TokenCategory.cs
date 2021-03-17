@@ -1,43 +1,45 @@
-/*
-  Buttercup compiler - Token categories for the scanner.
-  Copyright (C) 2013 Ariel Ortiz, ITESM CEM
+namespace Drac
+{
+    enum TokenCategory
+    {
 
-  This program is free software: you can redistribute it and/or modify
-  it under the terms of the GNU General Public License as published by
-  the Free Software Foundation, either version 3 of the License, or
-  (at your option) any later version.
-
-  This program is distributed in the hope that it will be useful,
-  but WITHOUT ANY WARRANTY; without even the implied warranty of
-  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-  GNU General Public License for more details.
-
-  You should have received a copy of the GNU General Public License
-  along with this program.  If not, see <http://www.gnu.org/licenses/>.
-*/
-
-namespace Buttercup {
-
-    enum TokenCategory {
         AND,
-        ASSIGN,
-        BOOL,
-        END,
-        EOF,
+        BRACKET_OPEN,
+        BRACKET_CLOSE,
+        BREAK,
+        CHAR_LITERAL,
+        DEC,        
+        DIV,
+        DO,
+        ELIF,
+        ELSE,
+        EQUALS,
         FALSE,
         IDENTIFIER,
         IF,
-        INT,
+        INC,
         INT_LITERAL,
-        LESS,
+        LESS_THAN,
+        LESS_EQUAL,
+        MAIN,
+        MORE_THAN,
+        MORE_EQUAL,
         MUL,
+        MULTI_COMMENT,
+        NOT,
         NEG,
+        OR,
         PARENTHESIS_OPEN,
         PARENTHESIS_CLOSE,
         PLUS,
-        PRINT,
-        THEN,
+        REMAINDER,
+        RETURN,
+        STRING_LITERAL,
+        SQUARE_BRACKET_OPEN,
+        SQUARE_BRACKET_CLOSE,
         TRUE,
-        ILLEGAL_CHAR
+        VAR,
+        WHILE,
     }
+
 }
