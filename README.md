@@ -7,6 +7,7 @@ This Drac compiler is built upon a Buttercup compiler developed by Ariel Ortiz.
 Included in this release:
 
 * Lexical analysis
+* Syntactic analysis
 
 ## How to Build
 
@@ -18,7 +19,7 @@ At the terminal type:
 
 At the terminal type:
 
-    mono buttercup.exe <drac_source_file>
+    mono drac.exe <drac_source_file>
 
 Where `<drac_source_file>` is the name of a Drac source file. You can try with these files:
 

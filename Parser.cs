@@ -34,7 +34,7 @@
 * -      StmtAssign          ::= Id "=" Expr ";"
 * -      StmtIncr            ::= "inc" Id ";"
 * -      StmtDecr            ::= "dec" Id ";"
-* -      StmtFunCall         ::= Id "(" (Expr ("," Expr)*)? ")" ";"
+* -      StmtFunCall         ::= Id "(" ExprList ")" ";"
 * -      StmtIf              ::= "if" "(" Expr ")" "{" Stmt* "}" ElseIfList Else
 * -      ElseIfList          ::= ("elif" "(" Expr ")" "{" Stmt* "}")*
 * -      Else                ::= ("else" "{" Stmt* "}")?
@@ -43,6 +43,7 @@
 * -      StmtBreak           ::= "break" ";"
 * -      StmtEmpty           ::= ";"
 *       Expr                ::= ExprOr
+*       ExprList            ::= (Expr ("," Expr)*)?
 *       ExprOr              ::= ExprAnd ("or" ExprAnd)*
 *       ExprAnd             ::= ExprComp ("and" ExprComp)*
 *       ExprComp            ::= ExprRel (OpComp ExprRel)*
@@ -56,7 +57,7 @@
 *       ExprUnary           ::= OpUnary* ExprPrimary
 *       OpUnary             ::= "+" | "-" | "not"
 *       ExprPrimary         ::= Id | StmtFunCall | Array | Lit | "(" Expr ")"
-*       Array               ::= "[" (Expr ("," Expr)*)? "]"
+*       Array               ::= "[" ExprList "]"
 *       Lit                 ::= LitBool | LitInt | LitChar | LitStr
 *
 *
@@ -122,15 +123,31 @@ namespace Drac {
                 TokenCategory.REMAINDER
             };
         
-        // this should not be here
-        static readonly ISet<TokenCategory> firstOfSimpleExpression =
+        static readonly ISet<TokenCategory> firstOfPrimaryExpression =
             new HashSet<TokenCategory>() {
                 TokenCategory.IDENTIFIER,
                 TokenCategory.INT_LITERAL,
+                TokenCategory.CHAR_LITERAL,
+                TokenCategory.STRING_LITERAL,
                 TokenCategory.TRUE,
                 TokenCategory.FALSE,
                 TokenCategory.PARENTHESIS_OPEN,
-                TokenCategory.NEG
+                TokenCategory.BRACKET_OPEN
+            };
+
+        static readonly ISet<TokenCategory> firstOfExpression =
+            new HashSet<TokenCategory>() {
+                TokenCategory.IDENTIFIER,
+                TokenCategory.INT_LITERAL,
+                TokenCategory.CHAR_LITERAL,
+                TokenCategory.STRING_LITERAL,
+                TokenCategory.PARENTHESIS_OPEN,
+                TokenCategory.BRACKET_OPEN,
+                TokenCategory.NEG,
+                TokenCategory.PLUS,
+                TokenCategory.NOT,
+                TokenCategory.TRUE,
+                TokenCategory.FALSE
             };
 
         IEnumerator<Token> tokenStream;
@@ -212,14 +229,25 @@ namespace Drac {
         }
 
         public void Statement() {
-
-            switch (CurrentToken) {
-            
+            switch (CurrentToken) {    
             // TODO: Check if next of Id is either
             // an equals or a parentheses open
             case TokenCategory.IDENTIFIER:
-                // Assignment();
-                // FunCall();
+              Expect(TokenCategory.IDENTIFIER);
+                switch (CurrentToken){
+                  case TokenCategory.ASSIGN:
+                    Expect(TokenCategory.ASSIGN);
+                    Expression();
+                    Expect(TokenCategory.SEMICOLON);
+                    break;
+                  
+                  case TokenCategory.PARENTHESIS_OPEN:
+                    Expect(TokenCategory.PARENTHESIS_OPEN);
+                    ExpressionList();
+                    Expect(TokenCategory.PARENTHESIS_CLOSE);
+                    break;
+                    
+                }
                 break;
 
             case TokenCategory.INC:
@@ -283,13 +311,7 @@ namespace Drac {
         public void FunCall() {
           Expect(TokenCategory.IDENTIFIER);
           Expect(TokenCategory.PARENTHESIS_OPEN);
-          if (firstOfSimpleExpression.Contains(CurrentToken)) {
-            Expression();
-            while(CurrentToken == TokenCategory.COMMA) {
-              Expect(TokenCategory.COMMA);
-              Expression();
-            }
-          }
+          ExpressionList();
           Expect(TokenCategory.PARENTHESIS_CLOSE);
           Expect(TokenCategory.SEMICOLON);
         }
@@ -352,6 +374,7 @@ namespace Drac {
                 Statement();
             }
             Expect(TokenCategory.BRACKET_CLOSE);
+            Expect(TokenCategory.WHILE);
             Expect(TokenCategory.PARENTHESIS_OPEN);
             Expression();
             Expect(TokenCategory.PARENTHESIS_CLOSE);
@@ -372,6 +395,16 @@ namespace Drac {
 
         public void Expression() {
             ExpressionOr();
+        }
+
+        public void ExpressionList() {
+          if (firstOfExpression.Contains(CurrentToken)){
+            Expression();
+            while(CurrentToken == TokenCategory.COMMA){
+              Expect(TokenCategory.COMMA);
+              Expression();
+            }
+          }
         }
 
         public void ExpressionOr() {
@@ -465,7 +498,7 @@ namespace Drac {
         public void ExpressionMul() {
             ExpressionUnary();
             while(firstOfMultiplicationOperator.Contains(CurrentToken)) {
-                OperatorAdd();
+                OperatorMul();
                 ExpressionUnary();
             }
         }
@@ -514,117 +547,47 @@ namespace Drac {
             switch (CurrentToken) {
                 case TokenCategory.IDENTIFIER:
                     Expect(TokenCategory.IDENTIFIER);
-                    // FunCall
                     if (CurrentToken == TokenCategory.PARENTHESIS_OPEN) {
                         Expect(TokenCategory.PARENTHESIS_OPEN);
-
+                        ExpressionList();
                         Expect(TokenCategory.PARENTHESIS_CLOSE);
                     }
                     break;
-                case TokenCategory.NEG:
-                    Expect(TokenCategory.NEG);
+                case TokenCategory.SQUARE_BRACKET_OPEN:
+                    Array();
                     break;
-                case TokenCategory.NOT:
-                    Expect(TokenCategory.NOT);
+                case TokenCategory.CHAR_LITERAL:
+                    Expect(TokenCategory.CHAR_LITERAL);
+                    break;
+                case TokenCategory.STRING_LITERAL:
+                    Expect(TokenCategory.STRING_LITERAL);
+                    break;
+                case TokenCategory.INT_LITERAL:
+                    Expect(TokenCategory.INT_LITERAL);
+                    break;
+                case TokenCategory.TRUE:
+                    Expect(TokenCategory.TRUE);
+                    break;
+                case TokenCategory.FALSE:
+                    Expect(TokenCategory.FALSE);
+                    break;
+                case TokenCategory.PARENTHESIS_OPEN:
+                    Expect(TokenCategory.PARENTHESIS_OPEN);
+                    Expression();
+                    Expect(TokenCategory.PARENTHESIS_CLOSE);
                     break;
                 default:
-                    throw new SyntaxError(firstOfUnaryOperator,
+                    throw new SyntaxError(firstOfPrimaryExpression,
                                           tokenStream.Current);
             }
         }
 
         public void Array() {
           Expect(TokenCategory.SQUARE_BRACKET_OPEN);
-          // TODO: Finish this function
+          ExpressionList();
           Expect(TokenCategory.SQUARE_BRACKET_CLOSE);
         }
 
-        public void Lit() {
-          switch (CurrentToken) {
-              case TokenCategory.TRUE:
-                  Expect(TokenCategory.TRUE);
-                  break;
-              case TokenCategory.FALSE:
-                  Expect(TokenCategory.FALSE);
-                  break;
-              case TokenCategory.INT_LITERAL:
-                  Expect(TokenCategory.INT_LITERAL);
-                  break;
-              case TokenCategory.CHAR_LITERAL:
-                  Expect(TokenCategory.CHAR_LITERAL);
-                  break;
-              case TokenCategory.STRING_LITERAL:
-                  Expect(TokenCategory.STRING_LITERAL);
-                  break;
-              default:
-                  throw new SyntaxError(null,
-                                        tokenStream.Current);
-           
-          }
-        }
 
-
-        public void SimpleExpression() {
-
-            switch (CurrentToken) {
-
-            case TokenCategory.IDENTIFIER:
-                Expect(TokenCategory.IDENTIFIER);
-                break;
-
-            case TokenCategory.INT_LITERAL:
-                Expect(TokenCategory.INT_LITERAL);
-                break;
-
-            case TokenCategory.TRUE:
-                Expect(TokenCategory.TRUE);
-                break;
-
-            case TokenCategory.FALSE:
-                Expect(TokenCategory.FALSE);
-                break;
-
-            case TokenCategory.PARENTHESIS_OPEN:
-                Expect(TokenCategory.PARENTHESIS_OPEN);
-                Expression();
-                Expect(TokenCategory.PARENTHESIS_CLOSE);
-                break;
-
-            case TokenCategory.NEG:
-                Expect(TokenCategory.NEG);
-                SimpleExpression();
-                break;
-
-            default:
-                throw new SyntaxError(firstOfSimpleExpression,
-                                      tokenStream.Current);
-            }
-        }
-
-        public void Operator() {
-
-            switch (CurrentToken) {
-
-            case TokenCategory.AND:
-                Expect(TokenCategory.AND);
-                break;
-
-            case TokenCategory.LESS:
-                Expect(TokenCategory.LESS);
-                break;
-
-            case  TokenCategory.PLUS:
-                Expect(TokenCategory.PLUS);
-                break;
-
-            case TokenCategory.MUL:
-                Expect(TokenCategory.MUL);
-                break;
-
-            default:
-                throw new SyntaxError(firstOfOperator,
-                                      tokenStream.Current);
-            }
-        }
     }
 }

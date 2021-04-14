@@ -27,16 +27,17 @@ namespace Drac {
 
     public class Driver {
 
-        const string VERSION = "0.1";
+        const string VERSION = "0.2";
 
         //-----------------------------------------------------------
         static readonly string[] ReleaseIncludes = {
-            "Lexical analysis"
+            "Lexical analysis",
+            "Syntactic analysis"
         };
 
         //-----------------------------------------------------------
         void PrintAppHeader() {
-            Console.WriteLine("Buttercup compiler, version " + VERSION);
+            Console.WriteLine("Drac compiler, version " + VERSION);
             Console.WriteLine(
                 "Copyright \u00A9 2013-2021 by A. Ortiz, ITESM CEM.");
             Console.WriteLine("This program is free software; you may "
@@ -71,17 +72,19 @@ namespace Drac {
             try {
                 var inputPath = args[0];
                 var input = File.ReadAllText(inputPath);
+                var parser = new Parser(
+                    new Scanner(input).Scan().GetEnumerator());
+                parser.Program();
+                Console.WriteLine("Syntax OK.");
 
-                Console.WriteLine(
-                    $"===== Tokens from: \"{inputPath}\" =====");
-                var count = 1;
-                foreach (var tok in new Scanner(input).Scan()) {
-                    Console.WriteLine($"[{count++}] {tok}");
+            } catch (Exception e) {
+
+                if (e is FileNotFoundException || e is SyntaxError) {
+                    Console.Error.WriteLine(e.Message);
+                    Environment.Exit(1);
                 }
 
-            } catch (FileNotFoundException e) {
-                Console.Error.WriteLine(e.Message);
-                Environment.Exit(1);
+                throw;
             }
         }
 
