@@ -37,6 +37,7 @@ namespace Drac
         MUL,
         MULTI_COMMENT,
         NOT,
+        NOTEQUAL,
         NEG,
         OR,
         PARENTHESIS_OPEN,

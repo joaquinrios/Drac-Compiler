@@ -54,6 +54,7 @@ namespace Drac {
               | (?<False>       false\b       )
               | (?<If>          if\b          )
               | (?<Inc>         inc\b         )
+              | (?<NotEqual>   <>           )
               | (?<LessEqual>   <=          )
               | (?<Less>        [<]         )
               | (?<MoreEqual>   >=          )
@@ -108,6 +109,7 @@ namespace Drac {
                 {"MoreEqual", TokenCategory.MORE_EQUAL},
                 {"Mul", TokenCategory.MUL},
                 {"Not", TokenCategory.NOT},
+                {"NotEqual", TokenCategory.NOTEQUAL}
                 {"Neg", TokenCategory.NEG},
                 {"Or", TokenCategory.OR},
                 {"ParenthesisOpen", TokenCategory.PARENTHESIS_OPEN},
