@@ -63,19 +63,32 @@ namespace Drac {
             PrintReleaseIncludes();
             Console.WriteLine();
 
-            if (args.Length != 1) {
+            if (args.Length < 1) {
                 Console.Error.WriteLine(
                     "Please specify the name of the input file.");
                 Environment.Exit(1);
             }
 
             try {
-                var inputPath = args[0];
-                var input = File.ReadAllText(inputPath);
-                var parser = new Parser(
-                    new Scanner(input).Scan().GetEnumerator());
-                parser.Program();
-                Console.WriteLine("Syntax OK.");
+                if (args.Length > 1){
+                    var directoryPath = args[0];
+                    var paths = Directory.GetFiles(directoryPath);
+                    foreach (var path in paths)
+                    {
+                        var input = File.ReadAllText(path);
+                        var parser = new Parser(
+                            new Scanner(input).Scan().GetEnumerator());
+                        parser.Program();
+                        Console.WriteLine("Syntax OK :" + path);
+                    }
+                } else {
+                    var inputPath = args[0];
+                    var input = File.ReadAllText(inputPath);
+                    var parser = new Parser(
+                        new Scanner(input).Scan().GetEnumerator());
+                    parser.Program();
+                    Console.WriteLine("Syntax OK.");
+                }
 
             } catch (Exception e) {
 
