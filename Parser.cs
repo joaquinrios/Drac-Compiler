@@ -113,7 +113,8 @@ namespace Drac {
                 TokenCategory.DIV,
                 TokenCategory.REMAINDER
             };
-
+        
+        // this should not be here
         static readonly ISet<TokenCategory> firstOfSimpleExpression =
             new HashSet<TokenCategory>() {
                 TokenCategory.IDENTIFIER,
