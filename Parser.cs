@@ -37,7 +37,7 @@
 *       StmtFunCall         ::= Id "(" (Expr ("," Expr)*)? ")" ";"
 *       StmtIf              ::= "if" "(" Expr ")" "{" Stmt* "}" ElseIfList Else
 *       ElseIfList          ::= ("elif" "(" Expr ")" "{" Stmt* "}")*
-*       Else                ::= ("else" "{" Stmt* "}")*
+*       Else                ::= ("else" "{" Stmt* "}")?
 *       StmtWhile           ::= "while" "(" Expr ")" "{" Stmt* "}"
 *       StmtDoWhile         ::= "do" "{" Stmt* "}" "while" "(" Expr ")" ";"
 *       StmtBreak           ::= "break" ";"
@@ -54,10 +54,10 @@
 *       ExprMul             ::= ExprUnary (OpMul ExprUnary)*
 *       OpMul               ::= "*" | "/" | "%"
 *       ExprUnary           ::= OpUnary* ExprPrimary
-*       OpUnary             ::= "+" "-" "not"
-*       ExprPrimary         ::= Id | FunCall | Array | Lit | "(" Expr ")"
+*       OpUnary             ::= "+" | "-" | "not"
+*       ExprPrimary         ::= Id | StmtFunCall | Array | Lit | "(" Expr ")"
 *       Array               ::= "[" (Expr ("," Expr)*)? "]"
-*       Lit                 ::= LitBool | LitInt |LitChar |LitStr
+*       Lit                 ::= LitBool | LitInt | LitChar | LitStr
 *
 *
 *
@@ -78,16 +78,40 @@ namespace Drac {
         static readonly ISet<TokenCategory> firstOfStatement =
             new HashSet<TokenCategory>() {
                 TokenCategory.IDENTIFIER,
-                TokenCategory.PRINT,
                 TokenCategory.IF
             };
 
-        static readonly ISet<TokenCategory> firstOfOperator =
+        static readonly ISet<TokenCategory> firstOfComparisonOperator = 
             new HashSet<TokenCategory>() {
-                TokenCategory.AND,
+                TokenCategory.NOTEQUALS,
+                TokenCategory.EQUALS
+            };
+
+        static readonly ISet<TokenCategory> firstOfRelationalOperator = 
+            new HashSet<TokenCategory>() {
                 TokenCategory.LESS,
+                TokenCategory.LESS_EQUAL,
+                TokenCategory.MORE,
+                TokenCategory.MORE_EQUAL
+            };
+
+        static readonly ISet<TokenCategory> firstOfAdditonOperator = 
+            new HashSet<TokenCategory>() {
                 TokenCategory.PLUS,
-                TokenCategory.MUL
+                TokenCategory.NEG
+            };
+
+        static readonly ISet<TokenCategory> firstOfUnaryOperator = 
+            new HashSet<TokenCategory>() {
+                TokenCategory.PLUS,
+                TokenCategory.NEG,
+                TokenCategory.NOT
+            };
+        static readonly ISet<TokenCategory> firstOfMultiplicationOperator = 
+            new HashSet<TokenCategory>() {
+                TokenCategory.MUL,
+                TokenCategory.DIV,
+                TokenCategory.REMAINDER
             };
 
         static readonly ISet<TokenCategory> firstOfSimpleExpression =
@@ -164,12 +188,8 @@ namespace Drac {
         public void Type() {
             switch (CurrentToken) {
 
-            case TokenCategory.INT:
-                Expect(TokenCategory.INT);
-                break;
-
-            case TokenCategory.BOOL:
-                Expect(TokenCategory.BOOL);
+            case TokenCategory.VAR:
+                Expect(TokenCategory.VAR);
                 break;
 
             default:
@@ -182,30 +202,299 @@ namespace Drac {
             Expect(TokenCategory.IDENTIFIER);
             Expect(TokenCategory.ASSIGN);
             Expression();
+            Expect(TokenCategory.SEMICOLON);
         }
 
-        public void Print() {
-            Expect(TokenCategory.PRINT);
+        public void Incr() {
+            Expect(TokenCategory.INC);
+            Expect(TokenCategory.IDENTIFIER);
+            Expect(TokenCategory.SEMICOLON);
+        }
+
+        public void Decr() {
+            Expect(TokenCategory.DEC);
+            Expect(TokenCategory.IDENTIFIER);
+            Expect(TokenCategory.SEMICOLON);
+        }
+
+        public void FunCall() {
+          Expect(TokenCategory.IDENTIFIER);
+          Expect(TokenCategory.PARENTHESIS_OPEN);
+          if (firstOfSimpleExpression.Contains(CurrentToken)) {
             Expression();
+            while(CurrentToken == TokenCategory.COMMA) {
+              Expect(TokenCategory.COMMA);
+              Expression();
+            }
+          }
+          Expect(TokenCategory.PARENTHESIS_CLOSE);
+          Expect(TokenCategory.SEMICOLON);
         }
 
         public void If() {
             Expect(TokenCategory.IF);
+            Expect(TokenCategory.PARENTHESIS_OPEN);
             Expression();
-            Expect(TokenCategory.THEN);
-            while (firstOfStatement.Contains(CurrentToken)) {
+            Expect(TokenCategory.PARENTHESIS_CLOSE);
+            Expect(TokenCategory.BRACKET_OPEN);
+            while(firstOfStatement.Contains(CurrentToken)) {
                 Statement();
             }
-            Expect(TokenCategory.END);
+            Expect(TokenCategory.BRACKET_CLOSE);
+            ElseIfList();
+            Else();
         }
 
-        public void Expression() {
-            SimpleExpression();
-            while (firstOfOperator.Contains(CurrentToken)) {
-                Operator();
-                SimpleExpression();
+        public void ElseIfList() {
+            while(CurrentToken == TokenCategory.ELIF) {
+                Expect(TokenCategory.ELIF);
+                Expect(TokenCategory.PARENTHESIS_OPEN);
+                Expression();
+                Expect(TokenCategory.PARENTHESIS_CLOSE);
+                Expect(TokenCategory.BRACKET_OPEN);
+                while(firstOfStatement.Contains(CurrentToken)) {
+                    Statement();
+                }
+                Expect(TokenCategory.BRACKET_CLOSE);
             }
         }
+
+        public void Else(){
+            if (CurrentToken == TokenCategory.ELSE) {
+                Expect(TokenCategory.ELSE);
+                Expect(TokenCategory.BRACKET_OPEN);
+                while(firstOfStatement.Contains(CurrentToken)) {
+                    Statement();
+                }
+                Expect(TokenCategory.BRACKET_CLOSE);
+            }
+        }
+
+        public void While() {
+            Expect(TokenCategory.WHILE);
+            Expect(TokenCategory.PARENTHESIS_OPEN);
+            Expression();
+            Expect(TokenCategory.PARENTHESIS_CLOSE);
+            Expect(TokenCategory.BRACKET_OPEN);
+            while(firstOfStatement.Contains(CurrentToken)) {
+                Statement();
+            }
+            Expect(TokenCategory.BRACKET_CLOSE);
+        }
+
+        public void DoWhile() {
+            Expect(TokenCategory.DO);
+            Expect(TokenCategory.BRACKET_OPEN);
+            while(firstOfStatement.Contains(CurrentToken)) {
+                Statement();
+            }
+            Expect(TokenCategory.BRACKET_CLOSE);
+            Expect(TokenCategory.PARENTHESIS_OPEN);
+            Expression();
+            Expect(TokenCategory.PARENTHESIS_CLOSE);
+            Expect(TokenCategory.SEMICOLON);
+        }
+
+        public void Break(){
+            Expect(TokenCategory.BREAK);
+            Expect(TokenCategory.SEMICOLON);
+        }
+
+        public void Empty() { Expect(TokenCategory.SEMICOLON); }
+
+        public void Expression() {
+            ExpressionOr();
+        }
+
+        public void ExpressionOr() {
+            ExpressionAnd();
+            while(CurrentToken == TokenCategory.OR) {
+              Expect(TokenCategory.OR);
+              ExpressionAnd();
+            }
+        }
+
+        public void ExpressionAnd() {
+            ExpressionComp();
+            while(CurrentToken == TokenCategory.AND) {
+              Expect(TokenCategory.AND);
+              ExpressionComp();
+            }
+        }
+
+        public void ExpressionComp() {
+            ExpressionRel();
+            while(firstOfComparisonOperator.Contains(CurrentToken)) {
+              OperatorComp();
+              ExpressionRel();
+            }
+        }
+
+        public void OperatorComp() {
+            switch (CurrentToken) {
+                case TokenCategory.EQUALS:
+                    Expect(TokenCategory.EQUALS);
+                    break;
+                case TokenCategory.NOTEQUALS:
+                    Expect(TokenCategory.NOTEQUALS);
+                    break;
+                default:
+                    throw new SyntaxError(firstOfComparisonOperator,
+                                          tokenStream.Current);
+            }
+        }
+
+        public void ExpressionRel() {
+            ExpressionAdd();
+            while(firstOfRelationalOperator.Contains(CurrentToken)) {
+                OperatorRel();
+                ExpressionAdd();
+            }
+        }
+
+        public void OperatorRel() {
+            switch (CurrentToken) {
+                case TokenCategory.LESS:
+                    Expect(TokenCategory.LESS);
+                    break;
+                case TokenCategory.LESS_EQUAL:
+                    Expect(TokenCategory.LESS_EQUAL);
+                    break;
+                case TokenCategory.MORE:
+                    Expect(TokenCategory.MORE);
+                    break;
+                case TokenCategory.MORE_EQUAL:
+                    Expect(TokenCategory.MORE_EQUAL);
+                    break;
+                default:
+                    throw new SyntaxError(firstOfRelationalOperator,
+                                          tokenStream.Current);
+            }
+        }
+
+        public void ExpressionAdd() {
+            ExpressionMul();
+            while(firstOfAdditonOperator.Contains(CurrentToken)) {
+                OperatorAdd();
+                ExpressionMul();
+            }
+        }
+
+        public void OperatorAdd() {
+            switch (CurrentToken) {
+                case TokenCategory.PLUS:
+                    Expect(TokenCategory.PLUS);
+                    break;
+                case TokenCategory.NEG:
+                    Expect(TokenCategory.NEG);
+                    break;
+                default:
+                    throw new SyntaxError(firstOfAdditonOperator,
+                                          tokenStream.Current);
+            }
+        }
+
+        public void ExpressionMul() {
+            ExpressionUnary();
+            while(firstOfMultiplicationOperator.Contains(CurrentToken)) {
+                OperatorAdd();
+                ExpressionUnary();
+            }
+        }
+
+        public void OperatorMul() {
+            switch (CurrentToken) {
+                case TokenCategory.MUL:
+                    Expect(TokenCategory.MUL);
+                    break;
+                case TokenCategory.DIV:
+                    Expect(TokenCategory.DIV);
+                    break;
+                case TokenCategory.REMAINDER:
+                    Expect(TokenCategory.REMAINDER);
+                    break;
+                default:
+                    throw new SyntaxError(firstOfMultiplicationOperator,
+                                          tokenStream.Current);
+            }
+        }
+
+        public void ExpressionUnary() {
+          while (firstOfUnaryOperator.Contains(CurrentToken)) {
+            OperatorUnary();
+          }
+          ExpressionPrimary();
+        }
+        public void OperatorUnary() {
+            switch (CurrentToken) {
+                case TokenCategory.PLUS:
+                    Expect(TokenCategory.PLUS);
+                    break;
+                case TokenCategory.NEG:
+                    Expect(TokenCategory.NEG);
+                    break;
+                case TokenCategory.NOT:
+                    Expect(TokenCategory.NOT);
+                    break;
+                default:
+                    throw new SyntaxError(firstOfUnaryOperator,
+                                          tokenStream.Current);
+            }
+        }
+
+        public void ExpressionPrimary() {
+            switch (CurrentToken) {
+                case TokenCategory.IDENTIFIER:
+                    Expect(TokenCategory.IDENTIFIER);
+                    // FunCall
+                    if (CurrentToken == TokenCategory.PARENTHESIS_OPEN) {
+                        Expect(TokenCategory.PARENTHESIS_OPEN);
+
+                        Expect(TokenCategory.PARENTHESIS_CLOSE);
+                    }
+                    break;
+                case TokenCategory.NEG:
+                    Expect(TokenCategory.NEG);
+                    break;
+                case TokenCategory.NOT:
+                    Expect(TokenCategory.NOT);
+                    break;
+                default:
+                    throw new SyntaxError(firstOfUnaryOperator,
+                                          tokenStream.Current);
+            }
+        }
+
+        public void Array() {
+          Expect(TokenCategory.SQUARE_BRACKET_OPEN);
+          // TODO: Finish this function
+          Expect(TokenCategory.SQUARE_BRACKET_CLOSE);
+        }
+
+        public void Lit() {
+          switch (CurrentToken) {
+              case TokenCategory.TRUE:
+                  Expect(TokenCategory.TRUE);
+                  break;
+              case TokenCategory.FALSE:
+                  Expect(TokenCategory.FALSE);
+                  break;
+              case TokenCategory.INT_LITERAL:
+                  Expect(TokenCategory.INT_LITERAL);
+                  break;
+              case TokenCategory.CHAR_LITERAL:
+                  Expect(TokenCategory.CHAR_LITERAL);
+                  break;
+              case TokenCategory.STRING_LITERAL:
+                  Expect(TokenCategory.STRING_LITERAL);
+                  break;
+              default:
+                  throw new SyntaxError(null,
+                                        tokenStream.Current);
+           
+          }
+        }
+
 
         public void SimpleExpression() {
 
