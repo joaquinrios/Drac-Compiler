@@ -23,25 +23,25 @@
 
 
 /*  Drac LL(1) Grammar:
-*       Program             ::= Def* EOF
-*       Def                 ::= VarDef | FunDef
-*       VarDef              ::= "var" IdList ";"
-*       IdList              ::= Id ("," Id)*
-*       FunDef              ::= Id "(" IdList? ")" "{" VarDef* Stmt* "}"
+* -      Program             ::= Def* EOF
+* -      Def                 ::= VarDef | FunDef
+* -      VarDef              ::= "var" IdList ";"
+* -      IdList              ::= Id ("," Id)*
+* -      FunDef              ::= Id "(" IdList? ")" "{" VarDef* Stmt* "}"
 *       Stmt                ::= StmtAssign | StmtIncr | StmtDecr | StmtFunCall 
 *                               StmtIf | StmtWhile | StmtDoWhile | StmtBreak
 *                               StmtReturn | StmtEmpty
-*       StmtAssign          ::= Id "=" Expr ";"
-*       StmtIncr            ::= "inc" Id ";"
-*       StmtDecr            ::= "dec" Id ";"
-*       StmtFunCall         ::= Id "(" (Expr ("," Expr)*)? ")" ";"
-*       StmtIf              ::= "if" "(" Expr ")" "{" Stmt* "}" ElseIfList Else
-*       ElseIfList          ::= ("elif" "(" Expr ")" "{" Stmt* "}")*
-*       Else                ::= ("else" "{" Stmt* "}")?
-*       StmtWhile           ::= "while" "(" Expr ")" "{" Stmt* "}"
-*       StmtDoWhile         ::= "do" "{" Stmt* "}" "while" "(" Expr ")" ";"
-*       StmtBreak           ::= "break" ";"
-*       StmtEmpty           ::= ";"
+* -      StmtAssign          ::= Id "=" Expr ";"
+* -      StmtIncr            ::= "inc" Id ";"
+* -      StmtDecr            ::= "dec" Id ";"
+* -      StmtFunCall         ::= Id "(" (Expr ("," Expr)*)? ")" ";"
+* -      StmtIf              ::= "if" "(" Expr ")" "{" Stmt* "}" ElseIfList Else
+* -      ElseIfList          ::= ("elif" "(" Expr ")" "{" Stmt* "}")*
+* -      Else                ::= ("else" "{" Stmt* "}")?
+* -      StmtWhile           ::= "while" "(" Expr ")" "{" Stmt* "}"
+* -      StmtDoWhile         ::= "do" "{" Stmt* "}" "while" "(" Expr ")" ";"
+* -      StmtBreak           ::= "break" ";"
+* -      StmtEmpty           ::= ";"
 *       Expr                ::= ExprOr
 *       ExprOr              ::= ExprAnd ("or" ExprAnd)*
 *       ExprAnd             ::= ExprComp ("and" ExprComp)*
@@ -70,15 +70,23 @@ namespace Drac {
 
     class Parser {
 
-        static readonly ISet<TokenCategory> firstOfDeclaration =
+        static readonly ISet<TokenCategory> firstOfDefinition =
             new HashSet<TokenCategory>() {
-                TokenCategory.VAR
+                TokenCategory.VAR,
+                TokenCategory.IDENTIFIER
             };
 
         static readonly ISet<TokenCategory> firstOfStatement =
             new HashSet<TokenCategory>() {
                 TokenCategory.IDENTIFIER,
-                TokenCategory.IF
+                TokenCategory.INC,
+                TokenCategory.DEC,
+                TokenCategory.IF,
+                TokenCategory.WHILE,
+                TokenCategory.DO,
+                TokenCategory.BREAK,
+                TokenCategory.RETURN,
+                TokenCategory.SEMICOLON
             };
 
         static readonly ISet<TokenCategory> firstOfComparisonOperator = 
@@ -148,36 +156,102 @@ namespace Drac {
 
         public void Program() {
 
-            while (firstOfDeclaration.Contains(CurrentToken)) {
-                Declaration();
-            }
-
-            while (firstOfStatement.Contains(CurrentToken)) {
-                Statement();
+            while (firstOfDefinition.Contains(CurrentToken)) {
+                Definition();
             }
 
             Expect(TokenCategory.EOF);
         }
 
-        public void Declaration() {
-            Type();
+        public void Definition() {
+            switch (CurrentToken) {
+
+            case TokenCategory.VAR:
+                VarDef();
+                break;
+
+            case TokenCategory.IDENTIFIER:
+                FunDef();
+                break;
+
+            default:
+                throw new SyntaxError(firstOfDefinition,
+                                      tokenStream.Current);
+            }
+        }
+
+        public void VarDef() {
+          Expect(TokenCategory.VAR);
+          IdList();
+          Expect(TokenCategory.SEMICOLON);
+        }
+
+        public void IdList() {
+          Expect(TokenCategory.IDENTIFIER);
+          while(CurrentToken == TokenCategory.COMMA) {
+            Expect(TokenCategory.COMMA);
             Expect(TokenCategory.IDENTIFIER);
+          }
+        }
+
+        public void FunDef() {
+          Expect(TokenCategory.IDENTIFIER);
+          Expect(TokenCategory.PARENTHESIS_OPEN);
+          if (CurrentToken == TokenCategory.IDENTIFIER) {
+            IdList();
+          }
+          Expect(TokenCategory.PARENTHESIS_CLOSE);
+          Expect(TokenCategory.BRACKET_OPEN);
+          while (CurrentToken == TokenCategory.VAR) {
+            VarDef();
+          }
+          while(firstOfStatement.Contains(CurrentToken)) {
+            Statement();
+          }
+          Expect(TokenCategory.BRACKET_CLOSE);
         }
 
         public void Statement() {
 
             switch (CurrentToken) {
-
+            
+            // TODO: Check if next of Id is either
+            // an equals or a parentheses open
             case TokenCategory.IDENTIFIER:
-                Assignment();
+                // Assignment();
+                // FunCall();
                 break;
 
-            case TokenCategory.PRINT:
-                Print();
+            case TokenCategory.INC:
+                Incr();
+                break;
+
+            case TokenCategory.DEC:
+                Decr();
                 break;
 
             case TokenCategory.IF:
                 If();
+                break;
+
+            case TokenCategory.WHILE:
+                While();
+                break;
+
+            case TokenCategory.DO:
+                DoWhile();
+                break;
+
+            case TokenCategory.BREAK:
+                Break();
+                break;
+
+            case TokenCategory.RETURN:
+                Return();
+                break;
+            
+            case TokenCategory.SEMICOLON:
+                Empty();
                 break;
 
             default:
@@ -186,18 +260,6 @@ namespace Drac {
             }
         }
 
-        public void Type() {
-            switch (CurrentToken) {
-
-            case TokenCategory.VAR:
-                Expect(TokenCategory.VAR);
-                break;
-
-            default:
-                throw new SyntaxError(firstOfDeclaration,
-                                      tokenStream.Current);
-            }
-        }
 
         public void Assignment() {
             Expect(TokenCategory.IDENTIFIER);
@@ -301,6 +363,11 @@ namespace Drac {
             Expect(TokenCategory.SEMICOLON);
         }
 
+        public void Return() {
+          Expect(TokenCategory.RETURN);
+          Expression();
+          Expect(TokenCategory.SEMICOLON);
+        }
         public void Empty() { Expect(TokenCategory.SEMICOLON); }
 
         public void Expression() {

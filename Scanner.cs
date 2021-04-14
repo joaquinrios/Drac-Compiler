@@ -109,7 +109,7 @@ namespace Drac {
                 {"MoreEqual", TokenCategory.MORE_EQUAL},
                 {"Mul", TokenCategory.MUL},
                 {"Not", TokenCategory.NOT},
-                {"NotEquals", TokenCategory.NOTEQUALS}
+                {"NotEquals", TokenCategory.NOTEQUALS},
                 {"Neg", TokenCategory.NEG},
                 {"Or", TokenCategory.OR},
                 {"ParenthesisOpen", TokenCategory.PARENTHESIS_OPEN},
