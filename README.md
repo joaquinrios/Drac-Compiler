@@ -1,4 +1,4 @@
-# Drac compiler, version 0.1
+# Drac compiler, version 0.2
 
 This program is free software. You may redistribute it under the terms of the GNU General Public License version 3 or later. See `license.txt` for details.
 
@@ -23,8 +23,8 @@ At the terminal type:
 
 Where `<drac_source_file>` is the name of a Drac source file. You can try with these files:
 
-* `prog1.drac`
-* `prog2.drac`
+* `arrays.drac`
+* `binary.drac`
 
 ## How to Clean
 
