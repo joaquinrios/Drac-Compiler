@@ -23,25 +23,25 @@
 
 
 /*  Drac LL(1) Grammar:
-* -      Program             ::= Def* EOF
-* -      Def                 ::= VarDef | FunDef
-* -      VarDef              ::= "var" IdList ";"
-* -      IdList              ::= Id ("," Id)*
-* -      FunDef              ::= Id "(" IdList? ")" "{" VarDef* Stmt* "}"
+*       Program             ::= Def* EOF
+*       Def                 ::= VarDef | FunDef
+*       VarDef              ::= "var" IdList ";"
+*       IdList              ::= Id ("," Id)*
+*       FunDef              ::= Id "(" IdList? ")" "{" VarDef* Stmt* "}"
 *       Stmt                ::= StmtAssign | StmtIncr | StmtDecr | StmtFunCall 
 *                               StmtIf | StmtWhile | StmtDoWhile | StmtBreak
 *                               StmtReturn | StmtEmpty
-* -      StmtAssign          ::= Id "=" Expr ";"
-* -      StmtIncr            ::= "inc" Id ";"
-* -      StmtDecr            ::= "dec" Id ";"
-* -      StmtFunCall         ::= Id "(" ExprList ")" ";"
-* -      StmtIf              ::= "if" "(" Expr ")" "{" Stmt* "}" ElseIfList Else
-* -      ElseIfList          ::= ("elif" "(" Expr ")" "{" Stmt* "}")*
-* -      Else                ::= ("else" "{" Stmt* "}")?
-* -      StmtWhile           ::= "while" "(" Expr ")" "{" Stmt* "}"
-* -      StmtDoWhile         ::= "do" "{" Stmt* "}" "while" "(" Expr ")" ";"
-* -      StmtBreak           ::= "break" ";"
-* -      StmtEmpty           ::= ";"
+*       StmtAssign          ::= Id "=" Expr ";"
+*       StmtIncr            ::= "inc" Id ";"
+*       StmtDecr            ::= "dec" Id ";"
+*       StmtFunCall         ::= Id "(" ExprList ")" ";"
+*       StmtIf              ::= "if" "(" Expr ")" "{" Stmt* "}" ElseIfList Else
+*       ElseIfList          ::= ("elif" "(" Expr ")" "{" Stmt* "}")*
+*       Else                ::= ("else" "{" Stmt* "}")?
+*       StmtWhile           ::= "while" "(" Expr ")" "{" Stmt* "}"
+*       StmtDoWhile         ::= "do" "{" Stmt* "}" "while" "(" Expr ")" ";"
+*       StmtBreak           ::= "break" ";"
+*       StmtEmpty           ::= ";"
 *       Expr                ::= ExprOr
 *       ExprList            ::= (Expr ("," Expr)*)?
 *       ExprOr              ::= ExprAnd ("or" ExprAnd)*
