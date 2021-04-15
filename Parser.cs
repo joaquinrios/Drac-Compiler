@@ -28,13 +28,13 @@
 *       VarDef              ::= "var" IdList ";"
 *       IdList              ::= Id ("," Id)*
 *       FunDef              ::= Id "(" IdList? ")" "{" VarDef* Stmt* "}"
-*       Stmt                ::= StmtAssign | StmtIncr | StmtDecr | StmtFunCall 
+*       Stmt                ::= (Id (StmtAssign | StmtFuncCall)) | StmtIncr | StmtDecr | 
 *                               StmtIf | StmtWhile | StmtDoWhile | StmtBreak
 *                               StmtReturn | StmtEmpty
-*       StmtAssign          ::= Id "=" Expr ";"
+*       StmtAssign          ::= "=" Expr ";"
 *       StmtIncr            ::= "inc" Id ";"
 *       StmtDecr            ::= "dec" Id ";"
-*       StmtFunCall         ::= Id "(" ExprList ")" ";"
+*       StmtFunCall         ::= "(" ExprList ")" ";"
 *       StmtIf              ::= "if" "(" Expr ")" "{" Stmt* "}" ElseIfList Else
 *       ElseIfList          ::= ("elif" "(" Expr ")" "{" Stmt* "}")*
 *       Else                ::= ("else" "{" Stmt* "}")?
@@ -94,6 +94,12 @@ namespace Drac {
             new HashSet<TokenCategory>() {
                 TokenCategory.NOTEQUALS,
                 TokenCategory.EQUALS
+            };
+
+        static readonly ISet<TokenCategory> firstOfAfterIdentifier = 
+            new HashSet<TokenCategory>() {
+                TokenCategory.PARENTHESIS_OPEN,
+                TokenCategory.ASSIGN
             };
 
         static readonly ISet<TokenCategory> firstOfRelationalOperator = 
@@ -246,6 +252,9 @@ namespace Drac {
                     ExpressionList();
                     Expect(TokenCategory.PARENTHESIS_CLOSE);
                     break;
+                default:
+                throw new SyntaxError(firstOfAfterIdentifier,
+                                      tokenStream.Current);
                     
                 }
                 break;
