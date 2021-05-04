@@ -34,13 +34,15 @@
 *       StmtAssign          ::= "=" Expr ";"
 *       StmtIncr            ::= "inc" Id ";"
 *       StmtDecr            ::= "dec" Id ";"
-*       StmtFunCall         ::= "(" ExprList ")" ";"
+*       StmtFunCall         ::= FunCall ";"
+*       FunCall             ::= "(" ExprList ")"
 *       StmtIf              ::= "if" "(" Expr ")" "{" Stmt* "}" ElseIfList Else
 *       ElseIfList          ::= ("elif" "(" Expr ")" "{" Stmt* "}")*
 *       Else                ::= ("else" "{" Stmt* "}")?
 *       StmtWhile           ::= "while" "(" Expr ")" "{" Stmt* "}"
 *       StmtDoWhile         ::= "do" "{" Stmt* "}" "while" "(" Expr ")" ";"
 *       StmtBreak           ::= "break" ";"
+*       StmtReturn          ::= "return" Expr ";"
 *       StmtEmpty           ::= ";"
 *       Expr                ::= ExprOr
 *       ExprList            ::= (Expr ("," Expr)*)?
@@ -56,7 +58,7 @@
 *       OpMul               ::= "*" | "/" | "%"
 *       ExprUnary           ::= OpUnary* ExprPrimary
 *       OpUnary             ::= "+" | "-" | "not"
-*       ExprPrimary         ::= Id | StmtFunCall | Array | Lit | "(" Expr ")"
+*       ExprPrimary         ::= Id StmtFunCall? | Array | Lit | "(" Expr ")"
 *       Array               ::= "[" ExprList "]"
 *       Lit                 ::= LitBool | LitInt | LitChar | LitStr
 *
@@ -156,6 +158,16 @@ namespace Drac {
                 TokenCategory.FALSE
             };
 
+        static readonly ISet<TokenCategory> firstOfLiteral =
+            new HashSet<TokenCategory>() {
+                TokenCategory.INT_LITERAL,
+                TokenCategory.CHAR_LITERAL,
+                TokenCategory.STRING_LITERAL,
+                TokenCategory.TRUE,
+                TokenCategory.FALSE
+            };
+        
+
         IEnumerator<Token> tokenStream;
 
         public Parser(IEnumerator<Token> tokenStream) {
@@ -236,59 +248,52 @@ namespace Drac {
 
         public void Statement() {
             switch (CurrentToken) {    
-            // TODO: Check if next of Id is either
-            // an equals or a parentheses open
             case TokenCategory.IDENTIFIER:
               Expect(TokenCategory.IDENTIFIER);
                 switch (CurrentToken){
                   case TokenCategory.ASSIGN:
-                    Expect(TokenCategory.ASSIGN);
-                    Expression();
-                    Expect(TokenCategory.SEMICOLON);
+                    StmtAssign();
                     break;
                   
                   case TokenCategory.PARENTHESIS_OPEN:
-                    Expect(TokenCategory.PARENTHESIS_OPEN);
-                    ExpressionList();
-                    Expect(TokenCategory.PARENTHESIS_CLOSE);
+                    StmtFunCall();
                     break;
                 default:
                 throw new SyntaxError(firstOfAfterIdentifier,
-                                      tokenStream.Current);
-                    
+                                      tokenStream.Current);   
                 }
                 break;
 
             case TokenCategory.INC:
-                Incr();
+                StmtIncr();
                 break;
 
             case TokenCategory.DEC:
-                Decr();
+                StmtDecr();
                 break;
 
             case TokenCategory.IF:
-                If();
+                StmtIf();
                 break;
 
             case TokenCategory.WHILE:
-                While();
+                StmtWhile();
                 break;
 
             case TokenCategory.DO:
-                DoWhile();
+                StmtDoWhile();
                 break;
 
             case TokenCategory.BREAK:
-                Break();
+                StmtBreak();
                 break;
 
             case TokenCategory.RETURN:
-                Return();
+                StmtReturn();
                 break;
             
             case TokenCategory.SEMICOLON:
-                Empty();
+                StmtEmpty();
                 break;
 
             default:
@@ -298,34 +303,36 @@ namespace Drac {
         }
 
 
-        public void Assignment() {
-            Expect(TokenCategory.IDENTIFIER);
+        public void StmtAssign() {
             Expect(TokenCategory.ASSIGN);
             Expression();
             Expect(TokenCategory.SEMICOLON);
         }
 
-        public void Incr() {
+        public void StmtIncr() {
             Expect(TokenCategory.INC);
             Expect(TokenCategory.IDENTIFIER);
             Expect(TokenCategory.SEMICOLON);
         }
 
-        public void Decr() {
+        public void StmtDecr() {
             Expect(TokenCategory.DEC);
             Expect(TokenCategory.IDENTIFIER);
             Expect(TokenCategory.SEMICOLON);
         }
 
-        public void FunCall() {
-          Expect(TokenCategory.IDENTIFIER);
-          Expect(TokenCategory.PARENTHESIS_OPEN);
-          ExpressionList();
-          Expect(TokenCategory.PARENTHESIS_CLOSE);
+        public void StmtFunCall() {
+          FunCall();
           Expect(TokenCategory.SEMICOLON);
         }
 
-        public void If() {
+        public void FunCall() {
+          Expect(TokenCategory.PARENTHESIS_OPEN);
+          ExpressionList();
+          Expect(TokenCategory.PARENTHESIS_CLOSE);
+        }
+
+        public void StmtIf() {
             Expect(TokenCategory.IF);
             Expect(TokenCategory.PARENTHESIS_OPEN);
             Expression();
@@ -364,7 +371,7 @@ namespace Drac {
             }
         }
 
-        public void While() {
+        public void StmtWhile() {
             Expect(TokenCategory.WHILE);
             Expect(TokenCategory.PARENTHESIS_OPEN);
             Expression();
@@ -376,7 +383,7 @@ namespace Drac {
             Expect(TokenCategory.BRACKET_CLOSE);
         }
 
-        public void DoWhile() {
+        public void StmtDoWhile() {
             Expect(TokenCategory.DO);
             Expect(TokenCategory.BRACKET_OPEN);
             while(firstOfStatement.Contains(CurrentToken)) {
@@ -390,17 +397,17 @@ namespace Drac {
             Expect(TokenCategory.SEMICOLON);
         }
 
-        public void Break(){
+        public void StmtBreak(){
             Expect(TokenCategory.BREAK);
             Expect(TokenCategory.SEMICOLON);
         }
 
-        public void Return() {
+        public void StmtReturn() {
           Expect(TokenCategory.RETURN);
           Expression();
           Expect(TokenCategory.SEMICOLON);
         }
-        public void Empty() { Expect(TokenCategory.SEMICOLON); }
+        public void StmtEmpty() { Expect(TokenCategory.SEMICOLON); }
 
         public void Expression() {
             ExpressionOr();
@@ -557,28 +564,26 @@ namespace Drac {
                 case TokenCategory.IDENTIFIER:
                     Expect(TokenCategory.IDENTIFIER);
                     if (CurrentToken == TokenCategory.PARENTHESIS_OPEN) {
-                        Expect(TokenCategory.PARENTHESIS_OPEN);
-                        ExpressionList();
-                        Expect(TokenCategory.PARENTHESIS_CLOSE);
+                        FunCall();
                     }
                     break;
                 case TokenCategory.SQUARE_BRACKET_OPEN:
                     Array();
                     break;
                 case TokenCategory.CHAR_LITERAL:
-                    Expect(TokenCategory.CHAR_LITERAL);
+                    Literal();
                     break;
                 case TokenCategory.STRING_LITERAL:
-                    Expect(TokenCategory.STRING_LITERAL);
+                    Literal();
                     break;
                 case TokenCategory.INT_LITERAL:
-                    Expect(TokenCategory.INT_LITERAL);
+                    Literal();
                     break;
                 case TokenCategory.TRUE:
-                    Expect(TokenCategory.TRUE);
+                    Literal();
                     break;
                 case TokenCategory.FALSE:
-                    Expect(TokenCategory.FALSE);
+                    Literal();
                     break;
                 case TokenCategory.PARENTHESIS_OPEN:
                     Expect(TokenCategory.PARENTHESIS_OPEN);
@@ -595,6 +600,29 @@ namespace Drac {
           Expect(TokenCategory.SQUARE_BRACKET_OPEN);
           ExpressionList();
           Expect(TokenCategory.SQUARE_BRACKET_CLOSE);
+        }
+
+        public void Literal() {
+            switch (CurrentToken) {
+                case TokenCategory.CHAR_LITERAL:
+                    Expect(TokenCategory.CHAR_LITERAL);
+                    break;
+                case TokenCategory.STRING_LITERAL:
+                    Expect(TokenCategory.STRING_LITERAL);
+                    break;
+                case TokenCategory.INT_LITERAL:
+                    Expect(TokenCategory.INT_LITERAL);
+                    break;
+                case TokenCategory.TRUE:
+                    Expect(TokenCategory.TRUE);
+                    break;
+                case TokenCategory.FALSE:
+                    Expect(TokenCategory.FALSE);
+                    break;
+                default:
+                    throw new SyntaxError(firstOfLiteral,
+                                          tokenStream.Current);
+            }
         }
 
 
