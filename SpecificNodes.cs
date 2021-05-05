@@ -23,31 +23,31 @@
 namespace Drac {
     class And: Node {}
     class Assignment: Node {}
-    class Declaration: Node {}
-    class DeclarationList: Node {}    
-    class False: Node {}
-    class Identifier: Node {}
-    class IntLiteral: Node {}
-    class If: Node {}
-    class Else: Node {}
-
-    class ElseIf: Node {}
-
-    class While: Node {}
-
-    class Do: Node {}
     class Break: Node {}
+    class CharLiteral: Node {}
+    class Dec: Node {}
+    class Declaration: Node {}
+    class DeclarationList: Node {}
+    class Do: Node {}
+    class Else: Node {}
+    class ElseIf: Node {}    
+    class False: Node {}
+    class Function: Node {}
+    class Identifier: Node {}
+    class If: Node {}
+    class Inc: Node {}
+    class IntLiteral: Node {}
     class Less: Node {}
     class Mul: Node {}
-
-
-    class CharLiteral: Node {}
-    class StringLiteral: Node {}
-    class IntLiteral: Node {}
-
     class Neg: Node {}
     class Plus: Node {}
     class Print: Node {}
     class Program: Node {}
+    class Return: Node {}
+    class StatementList: Node {}
+    class StringLiteral: Node {}
     class True: Node {}
+    class VarDef: Node {}
+    class While: Node {}
+
 }

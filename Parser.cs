@@ -238,7 +238,7 @@ namespace Drac {
         }
 
         
-        public void FunDef() {
+        public Node FunDef() {
             var functionToken = Expect(TokenCategory.IDENTIFIER);
             
             Expect(TokenCategory.PARENTHESIS_OPEN);
@@ -610,7 +610,8 @@ namespace Drac {
             }
         }
 
-        public void ExpressionPrimary() {
+        //TODO terminar case IDENTIFIER
+        public Node ExpressionPrimary() {
             switch (CurrentToken) {
                 case TokenCategory.IDENTIFIER:
                     Expect(TokenCategory.IDENTIFIER);
@@ -619,28 +620,22 @@ namespace Drac {
                     }
                     break;
                 case TokenCategory.SQUARE_BRACKET_OPEN:
-                    Array();
-                    break;
+                    return Array();
                 case TokenCategory.CHAR_LITERAL:
-                    Literal();
-                    break;
+                    return Literal();
                 case TokenCategory.STRING_LITERAL:
-                    Literal();
-                    break;
+                    return Literal();
                 case TokenCategory.INT_LITERAL:
-                    Literal();
-                    break;
+                    return Literal();
                 case TokenCategory.TRUE:
-                    Literal();
-                    break;
+                    return iteral();
                 case TokenCategory.FALSE:
-                    Literal();
-                    break;
+                    returrn Literal();
                 case TokenCategory.PARENTHESIS_OPEN:
                     Expect(TokenCategory.PARENTHESIS_OPEN);
-                    Expression();
+                    var result = Expression();
                     Expect(TokenCategory.PARENTHESIS_CLOSE);
-                    break;
+                    return result;
                 default:
                     throw new SyntaxError(firstOfPrimaryExpression,
                                           tokenStream.Current);
