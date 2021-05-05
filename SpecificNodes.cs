@@ -29,6 +29,14 @@ namespace Drac {
     class Identifier: Node {}
     class IntLiteral: Node {}
     class If: Node {}
+    class Else: Node {}
+
+    class ElseIf: Node {}
+
+    class While: Node {}
+
+    class Do: Node {}
+    class Break: Node {}
     class Less: Node {}
     class Mul: Node {}
 
