@@ -311,10 +311,11 @@ namespace Drac {
 
 
         public Node StmtAssign(Token idToken) {
-            Expect(TokenCategory.ASSIGN);
+            var assignToken = Expect(TokenCategory.ASSIGN);
             var expr = Expression();
-            var result = new Assignment() { expr };
-            result.AnchorToken = idToken;
+            var result = new Assignment() { AnchorToken = assignToken };
+            result.Add(new Identifier() {AnchorToken = idToken});
+            result.Add(expr);
             Expect(TokenCategory.SEMICOLON);
             return result;
         }
