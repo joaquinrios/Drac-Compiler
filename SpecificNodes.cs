@@ -31,17 +31,15 @@ namespace Drac {
     class If: Node {}
     class Less: Node {}
     class Mul: Node {}
-<<<<<<< HEAD
 
 
     class CharLiteral: Node {}
     class StringLiteral: Node {}
     class IntLiteral: Node {}
-=======
+
     class Neg: Node {}
     class Plus: Node {}
     class Print: Node {}
     class Program: Node {}
     class True: Node {}
->>>>>>> 1e2d5b4b7d2e4a8852b614612f8297c10f27e68a
 }
