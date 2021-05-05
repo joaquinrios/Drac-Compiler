@@ -51,4 +51,9 @@ namespace Drac {
     class Plus: Node {}
 
     class Mul: Node {}
+
+
+    class CharLiteral: Node {}
+    class StringLiteral: Node {}
+    class IntLiteral: Node {}
 }
