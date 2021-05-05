@@ -189,16 +189,23 @@ namespace Drac {
             }
         }
 
-        public void Program() {
+        public Node Program() {
+
+            var declList = new DeclarationList();
 
             while (firstOfDefinition.Contains(CurrentToken)) {
-                Definition();
+                declList.Add(Definition());
             }
 
             Expect(TokenCategory.EOF);
+
+            return new Program() {
+                declList
+            };
         }
 
-        public void Definition() {
+        public Node Definition() {
+            
             switch (CurrentToken) {
 
             case TokenCategory.VAR:
@@ -213,6 +220,8 @@ namespace Drac {
                 throw new SyntaxError(firstOfDefinition,
                                       tokenStream.Current);
             }
+
+            return Node();
         }
 
         public void VarDef() {
@@ -519,17 +528,20 @@ namespace Drac {
             }
         }
 
-        public void OperatorMul() {
+        public Node OperatorMul() {
             switch (CurrentToken) {
                 case TokenCategory.MUL:
-                    Expect(TokenCategory.MUL);
-                    break;
+                    return new Mul() {
+                        AnchorToken = Expect(TokenCategory.MUL)
+                    };
                 case TokenCategory.DIV:
-                    Expect(TokenCategory.DIV);
-                    break;
+                    return new Div() {
+                        AnchorToken = Expect(TokenCategory.DIV)
+                    };
                 case TokenCategory.REMAINDER:
-                    Expect(TokenCategory.REMAINDER);
-                    break;
+                    return new Remainder() {
+                        AnchorToken = Expect(TokenCategory.REMAINDER)
+                    };
                 default:
                     throw new SyntaxError(firstOfMultiplicationOperator,
                                           tokenStream.Current);
@@ -542,17 +554,20 @@ namespace Drac {
           }
           ExpressionPrimary();
         }
-        public void OperatorUnary() {
+        public Node OperatorUnary() {
             switch (CurrentToken) {
                 case TokenCategory.PLUS:
-                    Expect(TokenCategory.PLUS);
-                    break;
+                    return new Plus() {
+                        AnchorToken = Expect(TokenCategory.PLUS)
+                    };
                 case TokenCategory.NEG:
-                    Expect(TokenCategory.NEG);
-                    break;
+                    return new Neg() {
+                        AnchorToken = Expect(TokenCategory.NEG)
+                    };
                 case TokenCategory.NOT:
-                    Expect(TokenCategory.NOT);
-                    break;
+                    return new Not() {
+                        AnchorToken = Expect(TokenCategory.NOT)
+                    };
                 default:
                     throw new SyntaxError(firstOfUnaryOperator,
                                           tokenStream.Current);
