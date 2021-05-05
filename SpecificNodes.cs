@@ -22,15 +22,22 @@
 
 namespace Drac {
     class And: Node {}
+    class Array: Node {}
     class Assignment: Node {}
     class Break: Node {}
     class CharLiteral: Node {}
     class Dec: Node {}
     class Declaration: Node {}
     class DeclarationList: Node {}
+    class Div: Node {}
     class Do: Node {}
     class Else: Node {}
-    class ElseIf: Node {}    
+    class ElseIf: Node {}
+    class Equals: Node {}
+    class Expression: Node {}
+    class ExpressionList: Node {}
+    class IdList: Node {}
+    class Or: Node {}    
     class False: Node {}
     class Function: Node {}
     class Identifier: Node {}
@@ -38,12 +45,19 @@ namespace Drac {
     class Inc: Node {}
     class IntLiteral: Node {}
     class Less: Node {}
+    class LessEqual: Node {}
+    class More: Node {}
+    class MoreEqual: Node {}
     class Mul: Node {}
     class Neg: Node {}
+    class Not: Node {}
+    class NotEquals: Node {}
     class Plus: Node {}
     class Print: Node {}
     class Program: Node {}
+    class Remainder: Node {}
     class Return: Node {}
+    class Empty: Node {}
     class StatementList: Node {}
     class StringLiteral: Node {}
     class True: Node {}
