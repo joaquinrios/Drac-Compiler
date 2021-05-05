@@ -8,6 +8,7 @@ Included in this release:
 
 * Lexical analysis
 * Syntactic analysis
+* AST construction
 
 ## How to Build
 

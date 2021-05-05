@@ -79,16 +79,17 @@ namespace Drac {
                         var input = File.ReadAllText(path);
                         var parser = new Parser(
                             new Scanner(input).Scan().GetEnumerator());
-                        parser.Program();
-                        Console.WriteLine("Syntax OK :" + path);
+                        var program = parser.Program();
+                        Console.Write(program.ToStringTree());
+
                     }
                 } else {
                     var inputPath = args[0];
                     var input = File.ReadAllText(inputPath);
                     var parser = new Parser(
                         new Scanner(input).Scan().GetEnumerator());
-                    parser.Program();
-                    Console.WriteLine("Syntax OK.");
+                    var program = parser.Program();
+                    Console.Write(program.ToStringTree());
                 }
 
             } catch (Exception e) {

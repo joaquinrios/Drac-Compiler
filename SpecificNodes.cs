@@ -33,6 +33,7 @@ namespace Drac {
     class Do: Node {}
     class Else: Node {}
     class ElseIf: Node {}
+    class ElseIfList: Node {}
     class Equals: Node {}
     class Expression: Node {}
     class ExpressionList: Node {}
