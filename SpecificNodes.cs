@@ -21,34 +21,19 @@
 */
 
 namespace Drac {
-
-    class Program: Node {}
-
-    class DeclarationList: Node {}
-
-    class Declaration: Node {}
-
-    class Assignment: Node {}
-
-    class Print: Node {}
-
-    class If: Node {}
-
-    class Identifier: Node {}
-
-    class IntLiteral: Node {}
-
-    class True: Node {}
-
-    class False: Node {}
-
-    class Neg: Node {}
-
     class And: Node {}
-
+    class Assignment: Node {}
+    class Declaration: Node {}
+    class DeclarationList: Node {}    
+    class False: Node {}
+    class Identifier: Node {}
+    class IntLiteral: Node {}
+    class If: Node {}
     class Less: Node {}
-
-    class Plus: Node {}
-
     class Mul: Node {}
+    class Neg: Node {}
+    class Plus: Node {}
+    class Print: Node {}
+    class Program: Node {}
+    class True: Node {}
 }
