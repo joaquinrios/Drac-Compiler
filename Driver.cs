@@ -27,13 +27,14 @@ namespace Drac {
 
     public class Driver {
 
-        const string VERSION = "0.3";
+        const string VERSION = "0.4";
 
         //-----------------------------------------------------------
         static readonly string[] ReleaseIncludes = {
             "Lexical analysis",
             "Syntactic analysis",
-            "AST construction"
+            "AST construction", 
+            "Semantic analysis"
         };
 
         //-----------------------------------------------------------
@@ -81,7 +82,7 @@ namespace Drac {
                             new Scanner(input).Scan().GetEnumerator());
                         var program = parser.Program();
                         Console.Write(program.ToStringTree());
-
+                        
                     }
                 } else {
                     var inputPath = args[0];
@@ -89,12 +90,30 @@ namespace Drac {
                     var parser = new Parser(
                         new Scanner(input).Scan().GetEnumerator());
                     var program = parser.Program();
-                    Console.Write(program.ToStringTree());
+                    Console.Write("Syntax OK");
+                    // Console.Write(program.ToStringTree());
+                    var semantic = new FirstSemanticVisitor();
+                    semantic.Visit((dynamic) program);
+
+                    Console.WriteLine("Semantics OK.");
+                    Console.WriteLine();
+                    Console.WriteLine("Symbol Table");
+                    Console.WriteLine("============");
+                    foreach (var entry in semantic.TableVariables) {
+                        Console.WriteLine(entry);
+                    }
+                    foreach (var entry in semantic.TableFunctions) {
+                        Console.WriteLine(entry);
+                    }
+                    
+                    
                 }
 
             } catch (Exception e) {
 
-                if (e is FileNotFoundException || e is SyntaxError) {
+                if (e is FileNotFoundException 
+                    || e is SyntaxError
+                    || e is SemanticError) {
                     Console.Error.WriteLine(e.Message);
                     Environment.Exit(1);
                 }

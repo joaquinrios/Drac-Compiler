@@ -33,6 +33,12 @@ namespace Drac {
       }
     }
 
+    public int ChildrenLength {
+      get {
+        return children.Count;
+      }
+    }
+
     public Token AnchorToken { get; set; }
 
     public void Add(Node node) {
