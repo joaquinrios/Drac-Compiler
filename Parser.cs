@@ -27,7 +27,9 @@
 *       Def                 ::= VarDef | FunDef
 *       VarDef              ::= "var" IdList ";"
 *       IdList              ::= Id ("," Id)*
-*       FunDef              ::= Id "(" IdList? ")" "{" VarDef* Stmt* "}"
+*       FunDef              ::= Id "(" ParamList ")" "{" VarDefList Stmt* "}"
+*       ParamList           ::= IdList?
+*       VarDefList          ::= VarDef*
 *       Stmt                ::= (Id (StmtAssign | StmtFunCall)) | StmtIncr | StmtDecr | 
 *                               StmtIf | StmtWhile | StmtDoWhile | StmtBreak
 *                               StmtReturn | StmtEmpty
@@ -242,27 +244,38 @@ namespace Drac {
             var functionToken = Expect(TokenCategory.IDENTIFIER);
             
             Expect(TokenCategory.PARENTHESIS_OPEN);
-            var idList = new IdList(); //TODO CHECK
+            var paramList = new ParamList(); //TODO CHECK
             if (CurrentToken == TokenCategory.IDENTIFIER) {
-                idList = IdList();
+                paramList.Add(IdList());
             }
             Expect(TokenCategory.PARENTHESIS_CLOSE);
             Expect(TokenCategory.BRACKET_OPEN);
+
+            var varDefList = VarDefList();
+            /*
             Node varDef = new VarDef();
             while (CurrentToken == TokenCategory.VAR) {
                 varDef = VarDef();
             }
+            */
             var stmtList = new StatementList();
             while(firstOfStatement.Contains(CurrentToken)) {
                 stmtList.Add(Statement());
             }
-            var function = new Function() { idList, varDef, stmtList };
+            var function = new Function() { paramList, varDefList, stmtList };
             function.AnchorToken = functionToken;
             
             Expect(TokenCategory.BRACKET_CLOSE);
             return function;
         }
 
+        public Node VarDefList(){
+            var varDefList = new VarDefList();
+            while (CurrentToken == TokenCategory.VAR) {
+                varDefList.Add(VarDef());
+            }
+            return varDefList;
+        }
         public Node Statement() {
             switch (CurrentToken) {    
                 case TokenCategory.IDENTIFIER:
@@ -345,7 +358,8 @@ namespace Drac {
 
         public Node FunCall() {
             Expect(TokenCategory.PARENTHESIS_OPEN);
-            var result = ExpressionList();
+            var result = new FunCall();
+            result.Add(ExpressionList());
             Expect(TokenCategory.PARENTHESIS_CLOSE);
             return result;
         }

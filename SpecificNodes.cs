@@ -40,6 +40,7 @@ namespace Drac {
     class IdList: Node {}
     class Or: Node {}    
     class False: Node {}
+    class FunCall: Node {}
     class Function: Node {}
     class Identifier: Node {}
     class If: Node {}
@@ -53,6 +54,7 @@ namespace Drac {
     class Neg: Node {}
     class Not: Node {}
     class NotEquals: Node {}
+    class ParamList: Node {}
     class Plus: Node {}
     class Print: Node {}
     class Program: Node {}
@@ -63,6 +65,7 @@ namespace Drac {
     class StringLiteral: Node {}
     class True: Node {}
     class VarDef: Node {}
+    class VarDefList: Node {}
     class While: Node {}
 
 }

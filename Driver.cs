@@ -81,7 +81,22 @@ namespace Drac {
                         var parser = new Parser(
                             new Scanner(input).Scan().GetEnumerator());
                         var program = parser.Program();
-                        Console.Write(program.ToStringTree());
+                        Console.Write("Syntax OK\n");
+                        //Console.Write(program.ToStringTree());
+                        var semantic1 = new FirstSemanticVisitor();
+                        semantic1.Visit((dynamic) program);
+                        var semantic2 = new SecondSemanticVisitor(semantic1.TableVariables, semantic1.TableFunctions);
+                        semantic2.Visit((dynamic) program);
+                        Console.WriteLine("Semantics OK.");
+                        Console.WriteLine();
+                        Console.WriteLine("Symbol Table");
+                        Console.WriteLine("============");
+                        foreach (var entry in semantic1.TableVariables) {
+                            Console.WriteLine(entry);
+                        }
+                        foreach (var entry in semantic1.TableFunctions) {
+                            Console.WriteLine(entry);
+                        }
                         
                     }
                 } else {
@@ -90,19 +105,20 @@ namespace Drac {
                     var parser = new Parser(
                         new Scanner(input).Scan().GetEnumerator());
                     var program = parser.Program();
-                    Console.Write("Syntax OK");
-                    // Console.Write(program.ToStringTree());
-                    var semantic = new FirstSemanticVisitor();
-                    semantic.Visit((dynamic) program);
-
+                    Console.Write("Syntax OK\n");
+                    //Console.Write(program.ToStringTree());
+                    var semantic1 = new FirstSemanticVisitor();
+                    semantic1.Visit((dynamic) program);
+                    var semantic2 = new SecondSemanticVisitor(semantic1.TableVariables, semantic1.TableFunctions);
+                    semantic2.Visit((dynamic) program);
                     Console.WriteLine("Semantics OK.");
                     Console.WriteLine();
                     Console.WriteLine("Symbol Table");
                     Console.WriteLine("============");
-                    foreach (var entry in semantic.TableVariables) {
+                    foreach (var entry in semantic1.TableVariables) {
                         Console.WriteLine(entry);
                     }
-                    foreach (var entry in semantic.TableFunctions) {
+                    foreach (var entry in semantic1.TableFunctions) {
                         Console.WriteLine(entry);
                     }
                     

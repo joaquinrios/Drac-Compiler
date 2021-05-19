@@ -28,25 +28,26 @@ namespace Drac {
             public string name;
             public Boolean isPrimitive;
             public int arity;
-            public Object value;
+            public HashSet<string> value;
 
-            public FunctionRecord(string name, Boolean isPrimitive, int arity, Object value) {
+            public FunctionRecord(string name, Boolean isPrimitive, int arity, HashSet<string> value) {
                 this.name = name;
                 this.isPrimitive = isPrimitive;
                 this.arity = arity;
                 this.value = value;
             }
+
         }
     class FirstSemanticVisitor {
         
         public HashSet<string> TableVariables {
           get;
-          private set;
+          set;
         }
 
         public IDictionary<string, FunctionRecord> TableFunctions {
             get;
-            private set;
+            set;
         }
 
         public FirstSemanticVisitor() {
@@ -72,13 +73,18 @@ namespace Drac {
             }
         }
 
-
         public void Visit(Program node) {
             Visit((dynamic) node[0]);
         }
 
         public void Visit(DeclarationList node) {
             VisitChildren(node);
+            if (!TableFunctions.ContainsKey("main"))
+            {
+                throw new SemanticError(
+                    "No main function found", node.AnchorToken //TODO qué hacer si no hay anchortoken?
+                );      
+            }
         }
 
         public void Visit(VarDef node) {
@@ -99,19 +105,214 @@ namespace Drac {
 
         public void Visit(Function node) {
             var functionName = node.AnchorToken.Lexeme;
-            var arity = node[0].ChildrenLength;
+            var arity = 0;
+            if (node[0].ChildrenLength > 0)
+            {
+                arity = node[0][0].ChildrenLength;
+
+            }
             
             if (TableFunctions.ContainsKey(functionName)) {
                 throw new SemanticError(
                     "Duplicated function: " + functionName, node.AnchorToken
                 );
             } else {
-                TableFunctions.Add(functionName, new FunctionRecord(functionName, false, arity, null));
+                TableFunctions.Add(functionName, new FunctionRecord(functionName, false, arity, new HashSet<string>())); //TODO: revisar si es correcto crearla desde primera pasada
             }   
         }
     }
 
     class SecondSemanticVisitor {
-        
+
+        public HashSet<string> TableVariables {
+          get;
+          set;
+        }
+
+        public IDictionary<string, FunctionRecord> TableFunctions {
+            get;
+            set;
+        }
+
+        string inFunction = null;
+        int loopLevel = 0;
+
+        public SecondSemanticVisitor(HashSet<string> tableVariables, IDictionary<string, FunctionRecord> tableFunctions) {
+            this.TableVariables = tableVariables;
+            this.TableFunctions = tableFunctions;
+        }
+        void VisitChildren(Node node) {
+            foreach (var child in node)
+            {
+                Visit((dynamic) child);
+            }
+        }
+
+        public void Visit(Program node) {
+            Visit((dynamic) node[0]);
+        }
+
+        public void Visit(DeclarationList node) {
+            VisitChildren(node);
+        }
+
+        public void Visit(Function node) {
+            var functionName = node.AnchorToken.Lexeme;
+            inFunction = functionName;
+            VisitChildren(node);
+            inFunction = null;
+        }
+
+        public void Visit(VarDefList node) {
+            var localTable = TableFunctions[inFunction].value;
+            foreach (var varDef in node)
+            {
+                var idList = varDef[0];
+                foreach (var identifier in idList) {
+                    var varName = identifier.AnchorToken.Lexeme;
+                    if (localTable.Contains(varName))
+                    {
+                        throw new SemanticError(
+                            "Duplicated variable: " + varName, identifier.AnchorToken
+                        );
+                    } else {
+                        localTable.Add(varName);
+                    }
+                }
+            }
+        }
+
+        public void Visit(ParamList node) {
+            var localTable = TableFunctions[inFunction].value;
+            if (node.ChildrenLength > 0) {
+                foreach (var param in node[0])
+                {
+                    var paramName = param.AnchorToken.Lexeme;
+                    if (localTable.Contains(paramName))
+                    {
+                        throw new SemanticError(
+                            "Duplicated variable: " + paramName, param.AnchorToken
+                        );
+                    } else {
+                        localTable.Add(paramName);
+                    }   
+                }
+            }
+        }
+
+        public void Visit(StatementList node) {
+            VisitChildren(node);
+        } 
+
+        public void Visit(Assignment node) {
+            var localTable = TableFunctions[inFunction].value;
+            var variableName = node[0].AnchorToken.Lexeme;
+            if (!localTable.Contains(variableName))
+            {
+                if (!TableVariables.Contains(variableName))
+                {
+                    throw new SemanticError(
+                        "Undeclared variable: " + variableName, node[0].AnchorToken
+                    );
+                }
+            }
+
+            VisitChildren(node);
+        }  
+
+        public void Visit(IntLiteral node){
+            try {
+                Int32.Parse(node.AnchorToken.Lexeme);
+            } catch {
+                throw new SemanticError(
+                    "Int out of bounds (32 bits)", node.AnchorToken
+                ); 
+            }
+        }
+
+        public void Visit(FunCall node) {
+            var functionName = node.AnchorToken.Lexeme;
+            if (TableFunctions.ContainsKey(functionName)){
+                var arity = node[0].ChildrenLength;
+                var expectedArity = TableFunctions[functionName].arity;
+                if (arity == expectedArity)
+                {
+                } else
+                {
+                    throw new SemanticError(
+                        functionName + " expects " + expectedArity + " argument(s), received " + arity, node.AnchorToken
+                    );
+                }
+            } else
+            {
+                throw new SemanticError(
+                    "Undeclared function: " + functionName, node.AnchorToken
+                );
+            }
+            VisitChildren(node);
+        } 
+
+        public void Visit(While node){
+            loopLevel += 1;
+            VisitChildren(node);
+            loopLevel -= 1;
+        }
+
+        public void Visit(Do node){
+            loopLevel += 1;
+            VisitChildren(node);
+            loopLevel -= 1;
+        }
+
+        public void Visit(Break node){
+            if (loopLevel == 0)
+            {
+                throw new SemanticError(
+                    "Break cannot be used outside a loop.", node.AnchorToken
+                );
+            }
+        }
+
+        public void Visit(Div node){
+            var intDenominator = node[1].AnchorToken.Lexeme;
+            int value = 0;
+
+            if ((node[1] is IntLiteral) && !Int32.TryParse(intDenominator, out value)) {
+                throw new SemanticError(
+                    $"Integer literal too large: {intDenominator}",
+                    node.AnchorToken);
+            }
+
+            if ((node[1] is IntLiteral) && value == 0)
+            {
+                throw new SemanticError(
+                    "Cannot divide by 0", node.AnchorToken
+                );
+            }
+            VisitChildren(node);
+        }
+
+        public void Visit(Remainder node){
+            var intDenominator = node[1].AnchorToken.Lexeme;
+            int value = 0;
+
+            if ((node[1] is IntLiteral) && !Int32.TryParse(intDenominator, out value)) {
+                throw new SemanticError(
+                    $"Integer literal too large: {intDenominator}",
+                    node.AnchorToken);
+            }
+
+            if ((node[1] is IntLiteral) && value == 0)
+            {
+                throw new SemanticError(
+                    "Cannot divide by 0", node.AnchorToken
+                );
+            }
+            VisitChildren(node);
+        }
+
+        public void Visit(Node node){
+            VisitChildren(node);
+        }
     }
 }
