@@ -113,6 +113,7 @@ namespace Drac {
                     semantic2.Visit((dynamic) program);
                     Console.WriteLine("Semantics OK.");
                     Console.WriteLine();
+                    /*
                     Console.WriteLine("Symbol Table");
                     Console.WriteLine("============");
                     foreach (var entry in semantic1.TableVariables) {
@@ -121,6 +122,7 @@ namespace Drac {
                     foreach (var entry in semantic1.TableFunctions) {
                         Console.WriteLine(entry);
                     }
+                    */
                     
                     
                 }
