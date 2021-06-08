@@ -82,7 +82,7 @@ namespace Drac {
             if (!TableFunctions.ContainsKey("main"))
             {
                 throw new SemanticError(
-                    "No main function found", node.AnchorToken //TODO qué hacer si no hay anchortoken?
+                    "No main function found."
                 );      
             }
         }
