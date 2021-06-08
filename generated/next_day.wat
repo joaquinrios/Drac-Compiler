@@ -61,6 +61,7 @@
   if
   local.get $y
   call $is_leap_year
+  
   if
   i32.const 29
   local.set $result
@@ -120,6 +121,7 @@
   local.get $y
   local.get $m
   call $number_of_days_in_month
+  
   i32.eq
   if
   local.get $m
@@ -133,8 +135,14 @@
   local.get $y
   i32.const 1
   i32.add
+  call $add
+  drop
   i32.const 1
+  call $add
+  drop
   i32.const 1
+  call $add
+  drop
 
   return
   else
@@ -143,10 +151,16 @@
   local.set $_temp
   local.get $_temp
   local.get $y
+  call $add
+  drop
   local.get $m
   i32.const 1
   i32.add
+  call $add
+  drop
   i32.const 1
+  call $add
+  drop
 
   return
   end
@@ -156,10 +170,16 @@
   local.set $_temp
   local.get $_temp
   local.get $y
+  call $add
+  drop
   local.get $m
+  call $add
+  drop
   local.get $d
   i32.const 1
   i32.add
+  call $add
+  drop
 
   return
   end
@@ -257,16 +277,22 @@
 
 
   call $prints
+  drop
   local.get $y
   call $printi
+  drop
   i32.const 39
   call $printc
+  drop
   local.get $m
   call $printi
+  drop
   i32.const 39
   call $printc
+  drop
   local.get $d
   call $printi
+  drop
   i32.const 0
   call $new
   local.set $_temp
@@ -303,28 +329,39 @@
 
 
   call $prints
+  drop
   local.get $y
   local.get $m
   local.get $d
   call $next_day
+  
   local.set $next
   local.get $next
   i32.const 0
   call $get
+  drop
   call $printi
+  drop
   i32.const 39
   call $printc
+  drop
   local.get $next
   i32.const 1
   call $get
+  drop
   call $printi
+  drop
   i32.const 39
   call $printc
+  drop
   local.get $next
   i32.const 2
   call $get
+  drop
   call $printi
+  drop
   call $println
+  drop
 )
 (func $main
   (export "main")  (result i32)
@@ -333,17 +370,21 @@
   i32.const 2
   i32.const 28
   call $print_next_day
+  
   i32.const 2021
   i32.const 2
   i32.const 13
   call $print_next_day
+  
   i32.const 2021
   i32.const 2
   i32.const 28
   call $print_next_day
+  
   i32.const 2021
   i32.const 12
   i32.const 31
   call $print_next_day
+  
 )
 )

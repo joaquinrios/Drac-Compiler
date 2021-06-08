@@ -27,3 +27,4 @@ drac.exe: Driver.cs Scanner.cs Token.cs TokenCategory.cs Parser.cs \
 clean:
 
 	rm -f drac.exe
+	rm -rf __pycache__

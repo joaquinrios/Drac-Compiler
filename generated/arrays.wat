@@ -23,10 +23,12 @@
   local.set $first
   i32.const 39
   call $printc
+  drop
   i32.const 0
   local.set $i
   local.get $a
   call $size
+  drop
   local.set $n
 block $00000
   loop $00001
@@ -66,11 +68,14 @@ block $00000
 
 
   call $prints
+  drop
   end
   local.get $a
   local.get $i
   call $get
+  drop
   call $printi
+  drop
   local.get $i
   i32.const 1
   i32.add
@@ -80,6 +85,7 @@ block $00000
 end
   i32.const 39
   call $printc
+  drop
 )
 (func $sum_array
   (param $a i32)
@@ -94,6 +100,7 @@ end
   local.set $i
   local.get $a
   call $size
+  drop
   local.set $n
 block $00002
   loop $00003
@@ -106,6 +113,7 @@ block $00002
   local.get $a
   local.get $i
   call $get
+  drop
   i32.add
   local.set $sum
   local.get $i
@@ -129,11 +137,13 @@ end
   local.get $a
   i32.const 0
   call $get
+  drop
   local.set $max
   i32.const 0
   local.set $i
   local.get $a
   call $size
+  drop
   local.set $n
 block $00004
   loop $00005
@@ -145,6 +155,7 @@ block $00004
   local.get $a
   local.get $i
   call $get
+  drop
   local.set $x
   local.get $x
   local.get $max
@@ -174,6 +185,7 @@ end
   (local $swap i32)
   local.get $a
   call $size
+  drop
   local.set $n
   i32.const 0
   local.set $i
@@ -204,16 +216,19 @@ block $00008
   local.get $a
   local.get $j
   call $get
+  drop
   local.get $a
   local.get $j
   i32.const 1
   i32.add
   call $get
+  drop
   i32.gt_s
   if
   local.get $a
   local.get $j
   call $get
+  drop
   local.set $t
   local.get $a
   local.get $j
@@ -222,13 +237,16 @@ block $00008
   i32.const 1
   i32.add
   call $get
+  drop
   call $set
+  drop
   local.get $a
   local.get $j
   i32.const 1
   i32.add
   local.get $t
   call $set
+  drop
   i32.const 1
   local.set $swap
   end
@@ -263,25 +281,65 @@ end
   local.set $_temp
   local.get $_temp
   i32.const 73
+  call $add
+  drop
   i32.const 77
+  call $add
+  drop
   i32.const 56
+  call $add
+  drop
   i32.const 10
+  call $add
+  drop
   i32.const 14
+  call $add
+  drop
   i32.const 54
+  call $add
+  drop
   i32.const 75
+  call $add
+  drop
   i32.const 62
+  call $add
+  drop
   i32.const 71
+  call $add
+  drop
   i32.const 10
+  call $add
+  drop
   i32.const 3
+  call $add
+  drop
   i32.const 71
+  call $add
+  drop
   i32.const 16
+  call $add
+  drop
   i32.const 49
+  call $add
+  drop
   i32.const 66
+  call $add
+  drop
   i32.const 91
+  call $add
+  drop
   i32.const 69
+  call $add
+  drop
   i32.const 62
+  call $add
+  drop
   i32.const 25
+  call $add
+  drop
   i32.const 65
+  call $add
+  drop
 
   local.set $array
   i32.const 0
@@ -380,14 +438,19 @@ end
 
 
   call $prints
+  drop
   local.get $array
   call $print_array
+  
   call $println
+  drop
   local.get $array
   call $sum_array
+  
   local.set $sum
   local.get $array
   call $max_array
+  
   local.set $max
   i32.const 0
   call $new
@@ -485,9 +548,12 @@ end
 
 
   call $prints
+  drop
   local.get $sum
   call $printi
+  drop
   call $println
+  drop
   i32.const 0
   call $new
   local.set $_temp
@@ -584,11 +650,15 @@ end
 
 
   call $prints
+  drop
   local.get $max
   call $printi
+  drop
   call $println
+  drop
   local.get $array
   call $sort_array
+  
   i32.const 0
   call $new
   local.set $_temp
@@ -685,8 +755,11 @@ end
 
 
   call $prints
+  drop
   local.get $array
   call $print_array
+  
   call $println
+  drop
 )
 )

@@ -36,17 +36,24 @@
   i32.const 1
   i32.const 1
   i32.add
+  call $add
+  drop
   i32.const 2
   i32.const 3
   i32.mul
   i32.const 2
   i32.mul
+  call $add
+  drop
   i32.const 2
   i32.const 3
   call $sqr
+  
   i32.mul
   i32.const 2
   i32.add
+  call $add
+  drop
   i32.const 20
   i32.const 2
   i32.const 2
@@ -54,44 +61,70 @@
   i32.const 4
   i32.eq
   i32.sub
+  call $add
+  drop
   i32.const 5
+  call $add
+  drop
   i32.const 4
   i32.const 2
   i32.mul
+  call $add
+  drop
   i32.const 2
   i32.const 8
   i32.mul
+  call $add
+  drop
   i32.const 2
   i32.const 2
   i32.add
   i32.const 5
   i32.eq
+  call $add
+  drop
   i32.const 5
   call $sqr
+  
   i32.const 2
   i32.sub
+  call $add
+  drop
   i32.const 5
   i32.const 2
   i32.mul
   i32.const 1
   i32.add
+  call $add
+  drop
   i32.const 1
   i32.const 4
   call $sqr
+  
   i32.add
+  call $add
+  drop
   i32.const -3
   i32.const 2
   call $sqr
+  
   call $sqr
+  
   i32.add
+  call $add
+  drop
   i32.const 10
   i32.const 8
   i32.add
+  call $add
+  drop
   i32.const 30
   i32.const 6
   i32.sub
   i32.const 2
   i32.sub
+  call $add
+  drop
   i32.const 2
   i32.const 3
   i32.const 2
@@ -99,19 +132,29 @@
   i32.const 1
   i32.sub
   i32.mul
+  call $add
+  drop
   i32.const 3
   call $sqr
+  
   i32.const 5
   i32.const 2
   i32.mul
   i32.const 1
   i32.add
   i32.mul
+  call $add
+  drop
   i32.const 8
   i32.const 7
   i32.mul
+  call $add
+  drop
   i32.const 4
   call $sqr
+  
+  call $add
+  drop
   i32.const 2
   i32.const 3
   i32.add
@@ -119,32 +162,48 @@
   i32.const 3
   i32.mul
   i32.lt_s
+  call $add
+  drop
   i32.const -1
   i32.const 2
   i32.const 2
   i32.mul
   i32.add
+  call $add
+  drop
   i32.const 2
   call $sqr
+  
+  call $add
+  drop
   i32.const 3
   i32.const 4
   i32.add
   i32.const 2
   i32.mul
+  call $add
+  drop
   i32.const -10
   i32.const 17
   i32.add
+  call $add
+  drop
   i32.const 3
   i32.const 2
   i32.const 1
   i32.add
   i32.mul
+  call $add
+  drop
   i32.const 7
   i32.const 3
   i32.const 2
   call $sqr
+  
   i32.mul
   i32.add
+  call $add
+  drop
 
   local.set $array
   i32.const 0
@@ -156,12 +215,14 @@ block $00000
   local.get $i
   local.get $array
   call $size
+  drop
   i32.lt_s
   i32.eqz
   br_if $00000
   local.get $array
   local.get $i
   call $get
+  drop
   local.set $x
   local.get $i
   i32.const 1
@@ -370,6 +431,7 @@ end
 
 
   call $prints
+  drop
   else
   i32.const 0
   call $new
@@ -492,6 +554,7 @@ end
 
 
   call $prints
+  drop
   end
 )
 )

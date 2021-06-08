@@ -197,6 +197,8 @@ namespace Drac {
       var sb = new StringBuilder();
       foreach (var expression in node[0]) {
         sb.Append(Visit((dynamic) expression));
+        sb.Append("  call $add\n");
+        sb.Append("  drop\n");
       }
       
       return 
@@ -308,9 +310,15 @@ namespace Drac {
 
     public string Visit(FunCall node) {
       var functionName = node.AnchorToken.Lexeme;
+      var labelDrop = "";
+      if (TableFunctions[functionName].isPrimitive) {
+        labelDrop = "drop";
+      }
+
       return 
       VisitChildren(node[0])
-      + $"  call ${functionName}\n";
+      + $"  call ${functionName}\n"
+      + $"  {labelDrop}\n";
     }
 
     public string Visit(Break node) {

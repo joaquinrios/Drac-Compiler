@@ -98,6 +98,7 @@
 
 
   call $prints
+  drop
   i32.const 0
   call $new
   local.set $_temp
@@ -134,9 +135,12 @@
 
 
   call $prints
+  drop
   global.get $a
   call $printi
+  drop
   call $println
+  drop
   i32.const 0
   call $new
   local.set $_temp
@@ -173,9 +177,12 @@
 
 
   call $prints
+  drop
   local.get $b
   call $printi
+  drop
   call $println
+  drop
   i32.const 0
   call $new
   local.set $_temp
@@ -212,9 +219,12 @@
 
 
   call $prints
+  drop
   local.get $c
   call $printi
+  drop
   call $println
+  drop
 )
 (func $main
   (export "main")  (result i32)
@@ -230,6 +240,7 @@
   local.set $x
   local.get $x
   call $x
+  
   i32.const 0
   call $new
   local.set $_temp
@@ -321,6 +332,7 @@
 
 
   call $prints
+  drop
   i32.const 0
   call $new
   local.set $_temp
@@ -357,9 +369,12 @@
 
 
   call $prints
+  drop
   global.get $a
   call $printi
+  drop
   call $println
+  drop
   i32.const 0
   call $new
   local.set $_temp
@@ -396,9 +411,12 @@
 
 
   call $prints
+  drop
   global.get $b
   call $printi
+  drop
   call $println
+  drop
   i32.const 0
   call $new
   local.set $_temp
@@ -435,9 +453,12 @@
 
 
   call $prints
+  drop
   global.get $c
   call $printi
+  drop
   call $println
+  drop
   i32.const 0
   call $new
   local.set $_temp
@@ -474,8 +495,11 @@
 
 
   call $prints
+  drop
   local.get $x
   call $printi
+  drop
   call $println
+  drop
 )
 )

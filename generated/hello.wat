@@ -101,6 +101,7 @@
 
 
   call $prints
+  drop
   i32.const 42
   return
 )

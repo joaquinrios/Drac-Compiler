@@ -143,9 +143,12 @@
 
 
   call $prints
+  drop
   local.get $message
   call $prints
+  drop
   call $println
+  drop
   end
 )
 (func $some_fun
@@ -340,6 +343,7 @@
 
 
   call $assert
+  
 )
 (func $main
   (export "main")  (result i32)
@@ -466,6 +470,7 @@
 
 
   call $assert
+  
   i32.const -5
   i32.const 0  i32.const 0  i32.const 0  i32.const 5
   i32.sub
@@ -587,6 +592,7 @@
 
 
   call $assert
+  
   i32.const 7
   i32.const 0  i32.const 0  i32.const 7
   i32.sub
@@ -707,6 +713,7 @@
 
 
   call $assert
+  
   i32.const 0
   i32.const 0
   i32.add
@@ -821,6 +828,7 @@
 
 
   call $assert
+  
   i32.const 5
   i32.const 5
   i32.add
@@ -937,6 +945,7 @@
 
 
   call $assert
+  
   i32.const 7
   i32.const 7
   i32.add
@@ -1052,6 +1061,7 @@
 
 
   call $assert
+  
   i32.const 0
   i32.const 42
   i32.const 0
@@ -1187,6 +1197,7 @@
 
 
   call $assert
+  
   i32.const 42
   i32.const 6
   i32.const 7
@@ -1322,6 +1333,7 @@
 
 
   call $assert
+  
   i32.const 42
   i32.const -6
   i32.const -7
@@ -1457,6 +1469,7 @@
 
 
   call $assert
+  
   i32.const -42
   i32.const 6
   i32.const -7
@@ -1592,6 +1605,7 @@
 
 
   call $assert
+  
   i32.const 0
   i32.const 1
   i32.const 2
@@ -1697,6 +1711,7 @@
 
 
   call $assert
+  
   i32.const 6
   i32.const 20
   i32.const 3
@@ -1802,6 +1817,7 @@
 
 
   call $assert
+  
   i32.const -6
   i32.const -20
   i32.const 3
@@ -1907,6 +1923,7 @@
 
 
   call $assert
+  
   i32.const 6
   i32.const -20
   i32.const -3
@@ -2012,6 +2029,7 @@
 
 
   call $assert
+  
   i32.const 2
   i32.const 20
   i32.const 3
@@ -2122,6 +2140,7 @@
 
 
   call $assert
+  
   i32.const -2
   i32.const -20
   i32.const 3
@@ -2232,6 +2251,7 @@
 
 
   call $assert
+  
   i32.const -2
   i32.const -20
   i32.const -3
@@ -2342,6 +2362,7 @@
 
 
   call $assert
+  
   i32.const 42
   i32.const 22
   i32.const 20
@@ -2447,6 +2468,7 @@
 
 
   call $assert
+  
   i32.const 2
   i32.const 22
   i32.const -20
@@ -2552,6 +2574,7 @@
 
 
   call $assert
+  
   i32.const -42
   i32.const -22
   i32.const -20
@@ -2657,6 +2680,7 @@
 
 
   call $assert
+  
   i32.const 42
   i32.const 80
   i32.const 38
@@ -2782,6 +2806,7 @@
 
 
   call $assert
+  
   i32.const -118
   i32.const -80
   i32.const 38
@@ -2907,6 +2932,7 @@
 
 
   call $assert
+  
   i32.const -42
   i32.const -80
   i32.const -38
@@ -3032,6 +3058,7 @@
 
 
   call $assert
+  
   i32.const 0
   i32.const 1
   i32.eqz
@@ -3151,6 +3178,7 @@
 
 
   call $assert
+  
   i32.const 1
   i32.const 0
   i32.eqz
@@ -3270,6 +3298,7 @@
 
 
   call $assert
+  
   i32.const 0
   i32.const 1
   i32.eqz
@@ -3391,6 +3420,7 @@
 
 
   call $assert
+  
   i32.const 0
   i32.const 0
   if (result i32)
@@ -3516,6 +3546,7 @@
 
 
   call $assert
+  
   i32.const 0
   i32.const 1
   if (result i32)
@@ -3641,6 +3672,7 @@
 
 
   call $assert
+  
   i32.const 0
   i32.const 0
   if (result i32)
@@ -3766,6 +3798,7 @@
 
 
   call $assert
+  
   i32.const 1
   i32.const 1
   if (result i32)
@@ -3891,10 +3924,13 @@
 
 
   call $assert
+  
   i32.const 0
   call $false_fun
+  
   if (result i32)
   call $never_called
+  
     i32.eqz
     i32.eqz
   else
@@ -4016,6 +4052,7 @@
 
 
   call $assert
+  
   i32.const 0
   i32.const 0
   if (result i32)
@@ -4136,6 +4173,7 @@
 
 
   call $assert
+  
   i32.const 1
   i32.const 1
   if (result i32)
@@ -4256,6 +4294,7 @@
 
 
   call $assert
+  
   i32.const 1
   i32.const 0
   if (result i32)
@@ -4376,6 +4415,7 @@
 
 
   call $assert
+  
   i32.const 1
   i32.const 1
   if (result i32)
@@ -4496,12 +4536,15 @@
 
 
   call $assert
+  
   i32.const 1
   call $true_fun
+  
   if (result i32)
      i32.const 1
   else
   call $never_called
+  
     i32.eqz
     i32.eqz
   end
@@ -4616,6 +4659,7 @@
 
 
   call $assert
+  
   i32.const 1
   i32.const 42
   i32.const 42
@@ -4721,6 +4765,7 @@
 
 
   call $assert
+  
   i32.const 0
   i32.const 42
   i32.const 43
@@ -4826,6 +4871,7 @@
 
 
   call $assert
+  
   i32.const 1
   i32.const 42
   i32.const 43
@@ -4951,6 +4997,7 @@
 
 
   call $assert
+  
   i32.const 0
   i32.const 42
   i32.const 42
@@ -5076,6 +5123,7 @@
 
 
   call $assert
+  
   i32.const 1
   i32.const 43
   i32.const 42
@@ -5201,6 +5249,7 @@
 
 
   call $assert
+  
   i32.const 0
   i32.const 42
   i32.const 42
@@ -5326,6 +5375,7 @@
 
 
   call $assert
+  
   i32.const 1
   i32.const 42
   i32.const 43
@@ -5436,6 +5486,7 @@
 
 
   call $assert
+  
   i32.const 0
   i32.const 42
   i32.const 42
@@ -5546,6 +5597,7 @@
 
 
   call $assert
+  
   i32.const 1
   i32.const 43
   i32.const 42
@@ -5691,6 +5743,7 @@
 
 
   call $assert
+  
   i32.const 1
   i32.const 42
   i32.const 42
@@ -5836,6 +5889,7 @@
 
 
   call $assert
+  
   i32.const 0
   i32.const 42
   i32.const 43
@@ -5981,6 +6035,7 @@
 
 
   call $assert
+  
   i32.const 1
   i32.const 42
   i32.const 43
@@ -6111,6 +6166,7 @@
 
 
   call $assert
+  
   i32.const 1
   i32.const 42
   i32.const 42
@@ -6241,6 +6297,7 @@
 
 
   call $assert
+  
   i32.const 0
   i32.const 43
   i32.const 42
@@ -6371,8 +6428,10 @@
 
 
   call $assert
+  
   i32.const 0
   call $some_fun
+  
   i32.const 0
   call $new
   local.set $_temp
@@ -6499,8 +6558,10 @@
 
 
   call $assert
+  
   global.get $fails
   call $printi
+  drop
   i32.const 0
   call $new
   local.set $_temp
@@ -6622,8 +6683,10 @@
 
 
   call $prints
+  drop
   global.get $asserts
   call $printi
+  drop
   i32.const 0
   call $new
   local.set $_temp
@@ -6720,5 +6783,6 @@
 
 
   call $prints
+  drop
 )
 )

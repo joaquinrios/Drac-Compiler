@@ -59,6 +59,7 @@ end
   i32.const 1
   i32.sub
   call $recursive_factorial
+  
   i32.mul
   return
   end
@@ -166,7 +167,9 @@ block $00002
 
 
   call $prints
+  drop
   call $readi
+  drop
   local.set $num
   i32.const 0
   call $new
@@ -289,10 +292,14 @@ block $00002
 
 
   call $prints
+  drop
   local.get $num
   call $iterative_factorial
+  
   call $printi
+  drop
   call $println
+  drop
   i32.const 0
   call $new
   local.set $_temp
@@ -414,10 +421,14 @@ block $00002
 
 
   call $prints
+  drop
   local.get $num
   call $recursive_factorial
+  
   call $printi
+  drop
   call $println
+  drop
   i32.const 0
   call $new
   local.set $_temp
@@ -569,10 +580,13 @@ block $00002
 
 
   call $prints
+  drop
   call $reads
+  drop
   local.set $option
   local.get $option
   call $size
+  drop
   i32.const 0
   i32.eq
   if
@@ -582,6 +596,7 @@ block $00002
   local.get $option
   i32.const 0
   call $get
+  drop
   local.set $option
   end
   local.get $option

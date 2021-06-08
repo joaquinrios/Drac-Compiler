@@ -22,6 +22,7 @@
   local.set $start
   local.get $str
   call $size
+  drop
   i32.const 1
   i32.sub
   local.set $finish
@@ -35,9 +36,11 @@ block $00000
   local.get $str
   local.get $start
   call $get
+  drop
   local.get $str
   local.get $finish
   call $get
+  drop
   i32.ne
   if
   i32.const 0
@@ -160,7 +163,9 @@ block $00002
 
 
   call $prints
+  drop
   call $reads
+  drop
   local.set $str
   i32.const 0
   call $new
@@ -243,8 +248,10 @@ block $00002
 
 
   call $prints
+  drop
   local.get $str
   call $prints
+  drop
   i32.const 0
   call $new
   local.set $_temp
@@ -291,8 +298,10 @@ block $00002
 
 
   call $prints
+  drop
   local.get $str
   call $is_palindrome
+  
   i32.eqz
   if
   i32.const 0
@@ -331,6 +340,7 @@ block $00002
 
 
   call $prints
+  drop
   end
   i32.const 0
   call $new
@@ -423,6 +433,7 @@ block $00002
 
 
   call $prints
+  drop
   i32.const 0
   call $new
   local.set $_temp
@@ -549,10 +560,13 @@ block $00002
 
 
   call $prints
+  drop
   call $reads
+  drop
   local.set $option
   local.get $option
   call $size
+  drop
   i32.const 0
   i32.eq
   if
@@ -562,6 +576,7 @@ block $00002
   local.get $option
   i32.const 0
   call $get
+  drop
   local.set $option
   end
   local.get $option
