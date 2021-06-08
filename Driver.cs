@@ -79,54 +79,51 @@ namespace Drac {
                     foreach (var path in paths)
                     {
                         var input = File.ReadAllText(path);
+                        var outputPath = "generated/" + Path.GetFileName(Path.ChangeExtension(path, ".wat"));
                         var parser = new Parser(
                             new Scanner(input).Scan().GetEnumerator());
                         var program = parser.Program();
+                        Console.WriteLine("----");
                         Console.Write("Syntax OK\n");
-                        //Console.Write(program.ToStringTree());
                         var semantic1 = new FirstSemanticVisitor();
                         semantic1.Visit((dynamic) program);
                         var semantic2 = new SecondSemanticVisitor(semantic1.TableVariables, semantic1.TableFunctions);
                         semantic2.Visit((dynamic) program);
-                        Console.WriteLine("Semantics OK.");
-                        Console.WriteLine();
-                        Console.WriteLine("Symbol Table");
-                        Console.WriteLine("============");
-                        foreach (var entry in semantic1.TableVariables) {
-                            Console.WriteLine(entry);
-                        }
-                        foreach (var entry in semantic1.TableFunctions) {
-                            Console.WriteLine(entry);
-                        }
+
+                        Console.WriteLine("Semantics OK.\n");
+                        var codeGenerator = new WatVisitor(semantic2.TableVariables, semantic2.TableFunctions);
+                        File.WriteAllText(
+                          outputPath,
+                          codeGenerator.Visit((dynamic) program));
                         
+                        Console.WriteLine(
+                          "Created Wat (WebAssembly text format) file "
+                          + $"'{outputPath}'.");
+                        Console.WriteLine("----\n");
                     }
                 } else {
                     var inputPath = args[0];
-                    var outputPath = Path.ChangeExtension(inputPath, ".wat");
+                    var outputPath = "generated/" + Path.GetFileName(Path.ChangeExtension(inputPath, ".wat"));
                     var input = File.ReadAllText(inputPath);
                     var parser = new Parser(
                         new Scanner(input).Scan().GetEnumerator());
                     var program = parser.Program();
                     Console.Write("Syntax OK\n");
-                    //Console.Write(program.ToStringTree());
+
                     var semantic1 = new FirstSemanticVisitor();
                     semantic1.Visit((dynamic) program);
                     var semantic2 = new SecondSemanticVisitor(semantic1.TableVariables, semantic1.TableFunctions);
                     semantic2.Visit((dynamic) program);
                     Console.WriteLine("Semantics OK.\n");
-                    // Access tables by semantic1.TableVariables
-                    Console.WriteLine();
-                    /*
-                    Console.WriteLine("Symbol Table");
-                    Console.WriteLine("============");
-                    foreach (var entry in semantic1.TableVariables) {
-                        Console.WriteLine(entry);
-                    }
-                    foreach (var entry in semantic1.TableFunctions) {
-                        Console.WriteLine(entry);
-                    }
-                    */
+
+                    var codeGenerator = new WatVisitor(semantic2.TableVariables, semantic2.TableFunctions);
+                    File.WriteAllText(
+                      outputPath,
+                      codeGenerator.Visit((dynamic) program));
                     
+                    Console.WriteLine(
+                      "Created Wat (WebAssembly text format) file "
+                      + $"'{outputPath}'.");
                     
                 }
 
