@@ -27,14 +27,15 @@ namespace Drac {
 
     public class Driver {
 
-        const string VERSION = "0.4";
+        const string VERSION = "0.5";
 
         //-----------------------------------------------------------
         static readonly string[] ReleaseIncludes = {
             "Lexical analysis",
             "Syntactic analysis",
             "AST construction", 
-            "Semantic analysis"
+            "Semantic analysis",
+            "Wat code generation"
         };
 
         //-----------------------------------------------------------
@@ -101,6 +102,7 @@ namespace Drac {
                     }
                 } else {
                     var inputPath = args[0];
+                    var outputPath = Path.ChangeExtension(inputPath, ".wat");
                     var input = File.ReadAllText(inputPath);
                     var parser = new Parser(
                         new Scanner(input).Scan().GetEnumerator());
@@ -111,7 +113,8 @@ namespace Drac {
                     semantic1.Visit((dynamic) program);
                     var semantic2 = new SecondSemanticVisitor(semantic1.TableVariables, semantic1.TableFunctions);
                     semantic2.Visit((dynamic) program);
-                    Console.WriteLine("Semantics OK.");
+                    Console.WriteLine("Semantics OK.\n");
+                    // Access tables by semantic1.TableVariables
                     Console.WriteLine();
                     Console.WriteLine("Symbol Table");
                     Console.WriteLine("============");
