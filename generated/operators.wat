@@ -150,20 +150,28 @@
   call $println
   drop
   end
+  i32.const 0
+  return
 )
 (func $some_fun
   (result i32)
   (local $_temp i32)
+  i32.const 0
+  return
 )
 (func $true_fun
   (result i32)
   (local $_temp i32)
   i32.const 1
   return
+  i32.const 0
+  return
 )
 (func $false_fun
   (result i32)
   (local $_temp i32)
+  i32.const 0
+  return
   i32.const 0
   return
 )
@@ -344,6 +352,8 @@
 
   call $assert
   
+  i32.const 0
+  return
 )
 (func $main
   (export "main")  (result i32)
@@ -6784,5 +6794,7 @@
 
   call $prints
   drop
+  i32.const 0
+  return
 )
 )

@@ -44,6 +44,9 @@ namespace Drac {
     Stack<string> blockLabels = new Stack<string>();
     string inFunction = null;
 
+    HashSet<string> FunctionsThatDrop = new HashSet<string>();
+    
+
     public string GenerateLabel() {
       return $"${labelCounter++:00000}";
     }
@@ -51,6 +54,14 @@ namespace Drac {
     public WatVisitor(HashSet<string> tableVariables, IDictionary<string, FunctionRecord> tableFunctions) {
       this.TableFunctions = tableFunctions;
       this.TableVariables = tableVariables;
+
+      FunctionsThatDrop.Add("printi");
+      FunctionsThatDrop.Add("printc");
+      FunctionsThatDrop.Add("prints");
+      FunctionsThatDrop.Add("println");
+      FunctionsThatDrop.Add("add");
+      FunctionsThatDrop.Add("set");
+
     }
 
 
@@ -108,6 +119,8 @@ namespace Drac {
       + "  (local $_temp i32)\n"
       + Visit((dynamic) node[1]) // VarDefList
       + Visit((dynamic) node[2]) // StatementList
+      + "  i32.const 0\n" 
+      + "  return\n"
       + ")\n";
       inFunction = null;
       return result;
@@ -311,7 +324,7 @@ namespace Drac {
     public string Visit(FunCall node) {
       var functionName = node.AnchorToken.Lexeme;
       var labelDrop = "";
-      if (TableFunctions[functionName].isPrimitive) {
+      if (FunctionsThatDrop.Contains(functionName)) {
         labelDrop = "drop";
       }
 

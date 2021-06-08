@@ -20,6 +20,8 @@
   local.get $x
   i32.mul
   return
+  i32.const 0
+  return
 )
 (func $main
   (export "main")  (result i32)
@@ -215,14 +217,14 @@ block $00000
   local.get $i
   local.get $array
   call $size
-  drop
+  
   i32.lt_s
   i32.eqz
   br_if $00000
   local.get $array
   local.get $i
   call $get
-  drop
+  
   local.set $x
   local.get $i
   i32.const 1
@@ -556,5 +558,7 @@ end
   call $prints
   drop
   end
+  i32.const 0
+  return
 )
 )

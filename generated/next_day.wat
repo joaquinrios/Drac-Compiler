@@ -48,6 +48,8 @@
   i32.const 0
   return
   end
+  i32.const 0
+  return
 )
 (func $number_of_days_in_month
   (param $y i32)
@@ -109,6 +111,8 @@
   end
   end
   local.get $result
+  return
+  i32.const 0
   return
 )
 (func $next_day
@@ -183,6 +187,8 @@
 
   return
   end
+  i32.const 0
+  return
 )
 (func $print_next_day
   (param $y i32)
@@ -339,7 +345,7 @@
   local.get $next
   i32.const 0
   call $get
-  drop
+  
   call $printi
   drop
   i32.const 39
@@ -348,7 +354,7 @@
   local.get $next
   i32.const 1
   call $get
-  drop
+  
   call $printi
   drop
   i32.const 39
@@ -357,11 +363,13 @@
   local.get $next
   i32.const 2
   call $get
-  drop
+  
   call $printi
   drop
   call $println
   drop
+  i32.const 0
+  return
 )
 (func $main
   (export "main")  (result i32)
@@ -386,5 +394,7 @@
   i32.const 31
   call $print_next_day
   
+  i32.const 0
+  return
 )
 )

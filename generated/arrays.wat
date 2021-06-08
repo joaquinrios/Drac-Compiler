@@ -28,7 +28,7 @@
   local.set $i
   local.get $a
   call $size
-  drop
+  
   local.set $n
 block $00000
   loop $00001
@@ -73,7 +73,7 @@ block $00000
   local.get $a
   local.get $i
   call $get
-  drop
+  
   call $printi
   drop
   local.get $i
@@ -86,6 +86,8 @@ end
   i32.const 39
   call $printc
   drop
+  i32.const 0
+  return
 )
 (func $sum_array
   (param $a i32)
@@ -100,7 +102,7 @@ end
   local.set $i
   local.get $a
   call $size
-  drop
+  
   local.set $n
 block $00002
   loop $00003
@@ -113,7 +115,7 @@ block $00002
   local.get $a
   local.get $i
   call $get
-  drop
+  
   i32.add
   local.set $sum
   local.get $i
@@ -124,6 +126,8 @@ block $00002
   end
 end
   local.get $sum
+  return
+  i32.const 0
   return
 )
 (func $max_array
@@ -137,13 +141,13 @@ end
   local.get $a
   i32.const 0
   call $get
-  drop
+  
   local.set $max
   i32.const 0
   local.set $i
   local.get $a
   call $size
-  drop
+  
   local.set $n
 block $00004
   loop $00005
@@ -155,7 +159,7 @@ block $00004
   local.get $a
   local.get $i
   call $get
-  drop
+  
   local.set $x
   local.get $x
   local.get $max
@@ -173,6 +177,8 @@ block $00004
 end
   local.get $max
   return
+  i32.const 0
+  return
 )
 (func $sort_array
   (param $a i32)
@@ -185,7 +191,7 @@ end
   (local $swap i32)
   local.get $a
   call $size
-  drop
+  
   local.set $n
   i32.const 0
   local.set $i
@@ -216,19 +222,19 @@ block $00008
   local.get $a
   local.get $j
   call $get
-  drop
+  
   local.get $a
   local.get $j
   i32.const 1
   i32.add
   call $get
-  drop
+  
   i32.gt_s
   if
   local.get $a
   local.get $j
   call $get
-  drop
+  
   local.set $t
   local.get $a
   local.get $j
@@ -237,7 +243,7 @@ block $00008
   i32.const 1
   i32.add
   call $get
-  drop
+  
   call $set
   drop
   local.get $a
@@ -269,6 +275,8 @@ end
   br $00007
   end
 end
+  i32.const 0
+  return
 )
 (func $main
   (export "main")  (result i32)
@@ -761,5 +769,7 @@ end
   
   call $println
   drop
+  i32.const 0
+  return
 )
 )

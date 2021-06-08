@@ -225,6 +225,8 @@
   drop
   call $println
   drop
+  i32.const 0
+  return
 )
 (func $main
   (export "main")  (result i32)
@@ -501,5 +503,7 @@
   drop
   call $println
   drop
+  i32.const 0
+  return
 )
 )

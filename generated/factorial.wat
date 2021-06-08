@@ -42,6 +42,8 @@ block $00000
 end
   local.get $result
   return
+  i32.const 0
+  return
 )
 (func $recursive_factorial
   (param $n i32)
@@ -63,6 +65,8 @@ end
   i32.mul
   return
   end
+  i32.const 0
+  return
 )
 (func $main
   (export "main")  (result i32)
@@ -169,7 +173,7 @@ block $00002
   call $prints
   drop
   call $readi
-  drop
+  
   local.set $num
   i32.const 0
   call $new
@@ -582,11 +586,11 @@ block $00002
   call $prints
   drop
   call $reads
-  drop
+  
   local.set $option
   local.get $option
   call $size
-  drop
+  
   i32.const 0
   i32.eq
   if
@@ -596,7 +600,7 @@ block $00002
   local.get $option
   i32.const 0
   call $get
-  drop
+  
   local.set $option
   end
   local.get $option
@@ -616,5 +620,7 @@ block $00002
   br $00003
   end
 end
+  i32.const 0
+  return
 )
 )

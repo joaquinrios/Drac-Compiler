@@ -145,6 +145,8 @@
   call $println
   drop
   end
+  i32.const 0
+  return
 )
 (func $main
   (export "main")  (result i32)
@@ -1939,7 +1941,7 @@
   local.set $i
   local.get $s
   call $size
-  drop
+  
   local.set $n
 block $00000
   loop $00001
@@ -1951,11 +1953,11 @@ block $00000
   local.get $a
   local.get $i
   call $get
-  drop
+  
   local.get $s
   local.get $i
   call $get
-  drop
+  
   i32.const 0
   call $new
   local.set $_temp
@@ -2260,5 +2262,7 @@ end
   local.get $a
   call $prints
   drop
+  i32.const 0
+  return
 )
 )

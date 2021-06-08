@@ -104,5 +104,7 @@
   drop
   i32.const 42
   return
+  i32.const 0
+  return
 )
 )
