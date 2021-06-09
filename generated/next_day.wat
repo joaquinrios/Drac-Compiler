@@ -284,13 +284,13 @@
   local.get $y
   call $printi
   drop
-  i32.const 39
+  i32.const 47
   call $printc
   drop
   local.get $m
   call $printi
   drop
-  i32.const 39
+  i32.const 47
   call $printc
   drop
   local.get $d
@@ -333,7 +333,7 @@
   call $get
   call $printi
   drop
-  i32.const 39
+  i32.const 47
   call $printc
   drop
   local.get $next
@@ -341,7 +341,7 @@
   call $get
   call $printi
   drop
-  i32.const 39
+  i32.const 47
   call $printc
   drop
   local.get $next

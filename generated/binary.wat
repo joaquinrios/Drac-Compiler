@@ -104,7 +104,7 @@ block $00002
   local.set $remainder
   local.get $result
   local.get $remainder
-  i32.const 39
+  i32.const 48
   i32.add
   call $add
   drop
@@ -551,7 +551,7 @@ block $00004
   i32.const 0
   i32.eq
   if
-  i32.const 39
+  i32.const 78
   local.set $option
   else
   local.get $option
@@ -560,13 +560,13 @@ block $00004
   local.set $option
   end
   local.get $option
-  i32.const 39
+  i32.const 89
   i32.eq
   if (result i32)
      i32.const 1
   else
   local.get $option
-  i32.const 39
+  i32.const 121
   i32.eq
     i32.eqz
     i32.eqz

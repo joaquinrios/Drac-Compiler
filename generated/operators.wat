@@ -6171,7 +6171,6 @@
   local.get $_temp
   local.get $_temp
   local.get $_temp
-  local.get $_temp
   i32.const 32
   call $add
   drop
@@ -6229,10 +6228,6 @@
   drop
 
   i32.const 10
-  call $add
-  drop
-
-  i32.const 110
   call $add
   drop
 

@@ -21,7 +21,7 @@
   (local $n i32)
   i32.const 1
   local.set $first
-  i32.const 39
+  i32.const 91
   call $printc
   drop
   i32.const 0
@@ -71,7 +71,7 @@ block $00000
   br $00001
   end
 end
-  i32.const 39
+  i32.const 93
   call $printc
   drop
   i32.const 0

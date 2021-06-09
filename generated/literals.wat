@@ -147,7 +147,7 @@
   (local $n i32)
   i32.const 0
   global.set $fails
-  i32.const 39
+  i32.const 10
   i32.const 10
   i32.const 0
   call $new
@@ -276,7 +276,7 @@
 
   call $assert
   drop
-  i32.const 39
+  i32.const 13
   i32.const 13
   i32.const 0
   call $new
@@ -445,7 +445,7 @@
 
   call $assert
   drop
-  i32.const 39
+  i32.const 9
   i32.const 9
   i32.const 0
   call $new
@@ -554,7 +554,7 @@
 
   call $assert
   drop
-  i32.const 39
+  i32.const 92
   i32.const 92
   i32.const 0
   call $new
@@ -847,7 +847,7 @@
 
   call $assert
   drop
-  i32.const 39
+  i32.const 34
   i32.const 34
   i32.const 0
   call $new
@@ -1001,8 +1001,8 @@
 
   call $assert
   drop
-  i32.const 39
-  i32.const 39
+  i32.const 65
+  i32.const 65
   i32.const 0
   call $new
   local.set $_temp
@@ -1190,7 +1190,7 @@
 
   call $assert
   drop
-  i32.const 39
+  i32.const 8364
   i32.const 8364
   i32.const 0
   call $new
@@ -1404,63 +1404,7 @@
   local.get $_temp
   local.get $_temp
   local.get $_temp
-  local.get $_temp
-  local.get $_temp
-  local.get $_temp
-  local.get $_temp
-  local.get $_temp
-  local.get $_temp
-  local.get $_temp
-  local.get $_temp
-  local.get $_temp
-  local.get $_temp
-  local.get $_temp
-  local.get $_temp
-  local.get $_temp
-  local.get $_temp
-  local.get $_temp
-  local.get $_temp
-  local.get $_temp
-  local.get $_temp
-  local.get $_temp
-  local.get $_temp
-  local.get $_temp
-  local.get $_temp
-  local.get $_temp
-  local.get $_temp
-  local.get $_temp
-  local.get $_temp
-  local.get $_temp
-  local.get $_temp
-  local.get $_temp
-  local.get $_temp
-  local.get $_temp
-  local.get $_temp
-  local.get $_temp
-  local.get $_temp
-  local.get $_temp
-  local.get $_temp
-  i32.const 92
-  call $add
-  drop
-
-  i32.const 117
-  call $add
-  drop
-
-  i32.const 48
-  call $add
-  drop
-
-  i32.const 48
-  call $add
-  drop
-
-  i32.const 48
-  call $add
-  drop
-
-  i32.const 48
+  i32.const 161
   call $add
   drop
 
@@ -1472,27 +1416,7 @@
   call $add
   drop
 
-  i32.const 92
-  call $add
-  drop
-
-  i32.const 117
-  call $add
-  drop
-
-  i32.const 48
-  call $add
-  drop
-
-  i32.const 48
-  call $add
-  drop
-
-  i32.const 50
-  call $add
-  drop
-
-  i32.const 48
+  i32.const 8364
   call $add
   drop
 
@@ -1528,27 +1452,7 @@
   call $add
   drop
 
-  i32.const 92
-  call $add
-  drop
-
-  i32.const 117
-  call $add
-  drop
-
-  i32.const 48
-  call $add
-  drop
-
-  i32.const 48
-  call $add
-  drop
-
-  i32.const 48
-  call $add
-  drop
-
-  i32.const 48
+  i32.const 241
   call $add
   drop
 
@@ -1568,27 +1472,7 @@
   call $add
   drop
 
-  i32.const 92
-  call $add
-  drop
-
-  i32.const 117
-  call $add
-  drop
-
-  i32.const 48
-  call $add
-  drop
-
-  i32.const 48
-  call $add
-  drop
-
-  i32.const 50
-  call $add
-  drop
-
-  i32.const 48
+  i32.const 8364
   call $add
   drop
 
@@ -1608,27 +1492,7 @@
   call $add
   drop
 
-  i32.const 92
-  call $add
-  drop
-
-  i32.const 117
-  call $add
-  drop
-
-  i32.const 48
-  call $add
-  drop
-
-  i32.const 48
-  call $add
-  drop
-
-  i32.const 48
-  call $add
-  drop
-
-  i32.const 48
+  i32.const 225
   call $add
   drop
 
@@ -1664,27 +1528,7 @@
   call $add
   drop
 
-  i32.const 92
-  call $add
-  drop
-
-  i32.const 117
-  call $add
-  drop
-
-  i32.const 48
-  call $add
-  drop
-
-  i32.const 48
-  call $add
-  drop
-
-  i32.const 48
-  call $add
-  drop
-
-  i32.const 48
+  i32.const 209
   call $add
   drop
 
@@ -1700,27 +1544,7 @@
   call $add
   drop
 
-  i32.const 92
-  call $add
-  drop
-
-  i32.const 117
-  call $add
-  drop
-
-  i32.const 48
-  call $add
-  drop
-
-  i32.const 48
-  call $add
-  drop
-
-  i32.const 48
-  call $add
-  drop
-
-  i32.const 48
+  i32.const 241
   call $add
   drop
 
@@ -1740,11 +1564,7 @@
   call $add
   drop
 
-  i32.const 92
-  call $add
-  drop
-
-  i32.const 110
+  i32.const 10
   call $add
   drop
 

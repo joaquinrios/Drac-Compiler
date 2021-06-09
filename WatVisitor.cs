@@ -26,57 +26,69 @@ using System.Collections.Generic;
 namespace Drac {
   class CodePoints {
     public static IList<int> AsCodePoints(String str) {
-      str = str.Substring(1, str.Length - 2);
-      var result = new List<int>(str.Length);
-      for (var i = 0; i < str.Length; i++) {
-        var isSpecialCharacter = str[i] == '\\';
+      var temp = str;
+      temp = str.Substring(1, temp.Length - 2);
+      var result = new List<int>(temp.Length);
+      if (temp.Length == 0) {
+        return result;
+      }
+      var i = 0;
+      while (temp.Length >= 0) {
+        var move = 0;
+        var isSpecialCharacter = temp[0] == '\\';
         if (isSpecialCharacter) {
-          if (i+1 < str.Length){
-            var nextCharacter = str[i+1];
+            var nextCharacter = temp[1];
             switch (nextCharacter) {
               case 'n':
                 result.Add(10);
-                i += 2;
+                move = 2;
                 break;
               case 'r':
                 result.Add(13);
-                i += 2;
+                move = 2;
                 break;
               case 't':
                 result.Add(9);
-                i += 2;
+                move = 2;
                 break;
               case '\\':
                 result.Add(92);
-                i += 2;
+                move = 2;
                 break;
               case '\'':
                 result.Add(39);
-                i += 2;
+                move = 2;
                 break;
-              case '\"':
+              case '"':
                 result.Add(34);
-                i += 2;
+                move = 2;
                 break;
               case 'u':
-                var sc = str.Substring(i+2, i+6);
-                Console.WriteLine(sc);
+                var sc = temp.Substring(2, 6);
                 var codePoint = int.Parse(sc, System.Globalization.NumberStyles.HexNumber);
-                result.Add(sc);
-                i += 2;
+                result.Add(codePoint);
+                move = 6;
                 break;
               
               default:
                 break;
             }
-          } 
-          
         } else {
-          result.Add(char.ConvertToUtf32(str, i));
-          if (char.IsHighSurrogate(str, i)) {
-            i++;
+          result.Add(char.ConvertToUtf32(temp, i));
+          if (char.IsHighSurrogate(temp, i)) {
+            move = 2;
+          } else {
+            move = 1;
           }
+          
         }
+        if (temp.Length == move) {
+          temp = "";
+          break;
+        } else {
+          temp = temp.Substring(move);
+        }
+
       }
       return result;
     }
@@ -220,7 +232,8 @@ namespace Drac {
     }
 
     public string Visit (CharLiteral node) {
-      var value = char.ConvertToUtf32(node.AnchorToken.Lexeme, 0);
+      var code = CodePoints.AsCodePoints(node.AnchorToken.Lexeme);
+      var value = code[0];
       return $"  i32.const {value}\n";
     }
 
