@@ -350,9 +350,11 @@ namespace Drac {
         }
 
         public Node StmtFunCall(Token idToken) {
-          var result = FunCall();
+          var result = new StatementFunCall();
+          var function = FunCall();
           Expect(TokenCategory.SEMICOLON);
-          result.AnchorToken = idToken;
+          function.AnchorToken = idToken;
+          result.Add(function);
           return result;
         }
 

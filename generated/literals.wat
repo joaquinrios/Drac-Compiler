@@ -295,7 +295,7 @@
 
 
   call $assert
-  
+  drop
   i32.const 39
   i32.const 13
   i32.const 0
@@ -474,7 +474,7 @@
 
 
   call $assert
-  
+  drop
   i32.const 39
   i32.const 9
   i32.const 0
@@ -593,7 +593,7 @@
 
 
   call $assert
-  
+  drop
   i32.const 39
   i32.const 92
   i32.const 0
@@ -742,7 +742,7 @@
 
 
   call $assert
-  
+  drop
   i32.const 39
   i32.const 39
   i32.const 0
@@ -906,7 +906,7 @@
 
 
   call $assert
-  
+  drop
   i32.const 39
   i32.const 34
   i32.const 0
@@ -1070,7 +1070,7 @@
 
 
   call $assert
-  
+  drop
   i32.const 39
   i32.const 39
   i32.const 0
@@ -1269,7 +1269,7 @@
 
 
   call $assert
-  
+  drop
   i32.const 39
   i32.const 8364
   i32.const 0
@@ -1448,7 +1448,7 @@
 
 
   call $assert
-  
+  drop
   i32.const 0
   call $new
   local.set $_temp
@@ -1854,6 +1854,33 @@
   call $new
   local.set $_temp
   local.get $_temp
+  local.get $_temp
+  local.get $_temp
+  local.get $_temp
+  local.get $_temp
+  local.get $_temp
+  local.get $_temp
+  local.get $_temp
+  local.get $_temp
+  local.get $_temp
+  local.get $_temp
+  local.get $_temp
+  local.get $_temp
+  local.get $_temp
+  local.get $_temp
+  local.get $_temp
+  local.get $_temp
+  local.get $_temp
+  local.get $_temp
+  local.get $_temp
+  local.get $_temp
+  local.get $_temp
+  local.get $_temp
+  local.get $_temp
+  local.get $_temp
+  local.get $_temp
+  local.get $_temp
+  local.get $_temp
   i32.const 161
   call $add
   drop
@@ -1941,7 +1968,6 @@
   local.set $i
   local.get $s
   call $size
-  
   local.set $n
 block $00000
   loop $00001
@@ -1953,11 +1979,9 @@ block $00000
   local.get $a
   local.get $i
   call $get
-  
   local.get $s
   local.get $i
   call $get
-  
   i32.const 0
   call $new
   local.set $_temp
@@ -2089,7 +2113,7 @@ block $00000
 
 
   call $assert
-  
+  drop
   local.get $i
   i32.const 1
   i32.add

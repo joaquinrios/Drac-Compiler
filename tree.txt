@@ -1,241 +1,173 @@
 Program 
   DeclarationList 
-    Function {IDENTIFIER, "sqr", @(7, 1)}
+    VarDef {VAR, "var", @(7, 1)}
+      IdList 
+        Identifier {IDENTIFIER, "fails", @(7, 5)}
+    Function {IDENTIFIER, "assert", @(9, 1)}
       ParamList 
         IdList 
-          Identifier {IDENTIFIER, "x", @(7, 5)}
+          Identifier {IDENTIFIER, "value1", @(9, 8)}
+          Identifier {IDENTIFIER, "value2", @(9, 16)}
+          Identifier {IDENTIFIER, "message", @(9, 24)}
       VarDefList 
       StatementList 
-        Return {RETURN, "return", @(8, 5)}
-          Mul {MUL, "*", @(8, 14)}
-            Identifier {IDENTIFIER, "x", @(8, 12)}
-            Identifier {IDENTIFIER, "x", @(8, 16)}
-    Function {IDENTIFIER, "main", @(11, 1)}
+        If {IF, "if", @(10, 5)}
+          NotEquals {NOTEQUALS, "<>", @(10, 16)}
+            Identifier {IDENTIFIER, "value1", @(10, 9)}
+            Identifier {IDENTIFIER, "value2", @(10, 19)}
+          StatementList 
+            Inc {INC, "inc", @(11, 9)}
+              Identifier {IDENTIFIER, "fails", @(11, 13)}
+            StatementFunCall 
+              FunCall {IDENTIFIER, "prints", @(12, 9)}
+                ExpressionList 
+                  StringLiteral {STRING_LITERAL, ""Assertion failure: "", @(12, 16)}
+            StatementFunCall 
+              FunCall {IDENTIFIER, "prints", @(13, 9)}
+                ExpressionList 
+                  Identifier {IDENTIFIER, "message", @(13, 16)}
+            StatementFunCall 
+              FunCall {IDENTIFIER, "println", @(14, 9)}
+                ExpressionList 
+          ElseIfList 
+          Else 
+    Function {IDENTIFIER, "main", @(18, 1)}
       ParamList 
       VarDefList 
-        VarDef {VAR, "var", @(12, 5)}
+        VarDef {VAR, "var", @(19, 5)}
           IdList 
-            Identifier {IDENTIFIER, "array", @(12, 9)}
-            Identifier {IDENTIFIER, "sum", @(12, 16)}
-            Identifier {IDENTIFIER, "i", @(12, 21)}
-            Identifier {IDENTIFIER, "j", @(12, 24)}
-            Identifier {IDENTIFIER, "x", @(12, 27)}
+            Identifier {IDENTIFIER, "s", @(19, 9)}
+            Identifier {IDENTIFIER, "a", @(19, 12)}
+            Identifier {IDENTIFIER, "i", @(19, 15)}
+            Identifier {IDENTIFIER, "n", @(19, 18)}
       StatementList 
-        Assignment {ASSIGN, "=", @(13, 11)}
-          Identifier {IDENTIFIER, "array", @(13, 5)}
+        Assignment {ASSIGN, "=", @(20, 11)}
+          Identifier {IDENTIFIER, "fails", @(20, 5)}
+          IntLiteral {INT_LITERAL, "0", @(20, 13)}
+        StatementFunCall 
+          FunCall {IDENTIFIER, "assert", @(21, 5)}
+            ExpressionList 
+              CharLiteral {CHAR_LITERAL, "'\n'", @(21, 12)}
+              IntLiteral {INT_LITERAL, "10", @(21, 18)}
+              StringLiteral {STRING_LITERAL, ""error in newline literal"", @(21, 22)}
+        StatementFunCall 
+          FunCall {IDENTIFIER, "assert", @(22, 5)}
+            ExpressionList 
+              CharLiteral {CHAR_LITERAL, "'\r'", @(22, 12)}
+              IntLiteral {INT_LITERAL, "13", @(22, 18)}
+              StringLiteral {STRING_LITERAL, ""error in carriage return literal"", @(22, 22)}
+        StatementFunCall 
+          FunCall {IDENTIFIER, "assert", @(23, 5)}
+            ExpressionList 
+              CharLiteral {CHAR_LITERAL, "'\t'", @(23, 12)}
+              IntLiteral {INT_LITERAL, "9", @(23, 18)}
+              StringLiteral {STRING_LITERAL, ""error in tab literal"", @(23, 21)}
+        StatementFunCall 
+          FunCall {IDENTIFIER, "assert", @(24, 5)}
+            ExpressionList 
+              CharLiteral {CHAR_LITERAL, "'\\'", @(24, 12)}
+              IntLiteral {INT_LITERAL, "92", @(24, 18)}
+              StringLiteral {STRING_LITERAL, ""error in backslash literal"", @(24, 22)}
+        StatementFunCall 
+          FunCall {IDENTIFIER, "assert", @(25, 5)}
+            ExpressionList 
+              CharLiteral {CHAR_LITERAL, "'\''", @(25, 12)}
+              IntLiteral {INT_LITERAL, "39", @(25, 18)}
+              StringLiteral {STRING_LITERAL, ""error in single quote literal"", @(25, 22)}
+        StatementFunCall 
+          FunCall {IDENTIFIER, "assert", @(26, 5)}
+            ExpressionList 
+              CharLiteral {CHAR_LITERAL, "'\"'", @(26, 12)}
+              IntLiteral {INT_LITERAL, "34", @(26, 18)}
+              StringLiteral {STRING_LITERAL, ""error in double quote literal"", @(26, 22)}
+        StatementFunCall 
+          FunCall {IDENTIFIER, "assert", @(27, 5)}
+            ExpressionList 
+              CharLiteral {CHAR_LITERAL, "'\u000041'", @(27, 12)}
+              CharLiteral {CHAR_LITERAL, "'A'", @(27, 24)}
+              StringLiteral {STRING_LITERAL, ""error in letter A literal code point"", @(27, 29)}
+        StatementFunCall 
+          FunCall {IDENTIFIER, "assert", @(28, 5)}
+            ExpressionList 
+              CharLiteral {CHAR_LITERAL, "'\u0020AC'", @(28, 12)}
+              IntLiteral {INT_LITERAL, "8364", @(28, 24)}
+              StringLiteral {STRING_LITERAL, ""error in euro literal code point"", @(28, 30)}
+        Assignment {ASSIGN, "=", @(29, 7)}
+          Identifier {IDENTIFIER, "s", @(29, 5)}
+          StringLiteral {STRING_LITERAL, ""\u0000A1\u0020ACste ni\u0000F1o \u0020ACst\u0000E1 bien \u0000D1o\u0000F1o!\n"", @(29, 9)}
+        Assignment {ASSIGN, "=", @(30, 7)}
+          Identifier {IDENTIFIER, "a", @(30, 5)}
           Array 
             ExpressionList 
-              Plus {PLUS, "+", @(13, 16)}
-                IntLiteral {INT_LITERAL, "1", @(13, 14)}
-                IntLiteral {INT_LITERAL, "1", @(13, 18)}
-              Mul {MUL, "*", @(13, 27)}
-                Mul {MUL, "*", @(13, 23)}
-                  IntLiteral {INT_LITERAL, "2", @(13, 21)}
-                  IntLiteral {INT_LITERAL, "3", @(13, 25)}
-                IntLiteral {INT_LITERAL, "2", @(13, 29)}
-              Plus {PLUS, "+", @(13, 43)}
-                Mul {MUL, "*", @(13, 34)}
-                  IntLiteral {INT_LITERAL, "2", @(13, 32)}
-                  FunCall {IDENTIFIER, "sqr", @(13, 36)}
-                    ExpressionList 
-                      IntLiteral {INT_LITERAL, "3", @(13, 40)}
-                IntLiteral {INT_LITERAL, "2", @(13, 45)}
-              Neg {NEG, "-", @(13, 51)}
-                IntLiteral {INT_LITERAL, "20", @(13, 48)}
-                Equals {EQUALS, "==", @(13, 60)}
-                  Plus {PLUS, "+", @(13, 56)}
-                    IntLiteral {INT_LITERAL, "2", @(13, 54)}
-                    IntLiteral {INT_LITERAL, "2", @(13, 58)}
-                  IntLiteral {INT_LITERAL, "4", @(13, 63)}
-              IntLiteral {INT_LITERAL, "5", @(13, 68)}
-              Mul {MUL, "*", @(14, 9)}
-                IntLiteral {INT_LITERAL, "4", @(13, 71)}
-                IntLiteral {INT_LITERAL, "2", @(14, 11)}
-              Mul {MUL, "*", @(14, 16)}
-                IntLiteral {INT_LITERAL, "2", @(14, 14)}
-                IntLiteral {INT_LITERAL, "8", @(14, 18)}
-              Equals {EQUALS, "==", @(14, 27)}
-                Plus {PLUS, "+", @(14, 23)}
-                  IntLiteral {INT_LITERAL, "2", @(14, 21)}
-                  IntLiteral {INT_LITERAL, "2", @(14, 25)}
-                IntLiteral {INT_LITERAL, "5", @(14, 30)}
-              Neg {NEG, "-", @(14, 40)}
-                FunCall {IDENTIFIER, "sqr", @(14, 33)}
-                  ExpressionList 
-                    IntLiteral {INT_LITERAL, "5", @(14, 37)}
-                IntLiteral {INT_LITERAL, "2", @(14, 42)}
-              Plus {PLUS, "+", @(14, 51)}
-                Mul {MUL, "*", @(14, 47)}
-                  IntLiteral {INT_LITERAL, "5", @(14, 45)}
-                  IntLiteral {INT_LITERAL, "2", @(14, 49)}
-                IntLiteral {INT_LITERAL, "1", @(14, 53)}
-              Plus {PLUS, "+", @(14, 58)}
-                IntLiteral {INT_LITERAL, "1", @(14, 56)}
-                FunCall {IDENTIFIER, "sqr", @(14, 60)}
-                  ExpressionList 
-                    IntLiteral {INT_LITERAL, "4", @(14, 64)}
-              Plus {PLUS, "+", @(14, 71)}
-                IntLiteral {INT_LITERAL, "-3", @(14, 68)}
-                FunCall {IDENTIFIER, "sqr", @(15, 9)}
-                  ExpressionList 
-                    FunCall {IDENTIFIER, "sqr", @(15, 13)}
-                      ExpressionList 
-                        IntLiteral {INT_LITERAL, "2", @(15, 17)}
-              Plus {PLUS, "+", @(15, 25)}
-                IntLiteral {INT_LITERAL, "10", @(15, 22)}
-                IntLiteral {INT_LITERAL, "8", @(15, 27)}
-              Neg {NEG, "-", @(15, 37)}
-                Neg {NEG, "-", @(15, 33)}
-                  IntLiteral {INT_LITERAL, "30", @(15, 30)}
-                  IntLiteral {INT_LITERAL, "6", @(15, 35)}
-                IntLiteral {INT_LITERAL, "2", @(15, 39)}
-              Mul {MUL, "*", @(15, 44)}
-                IntLiteral {INT_LITERAL, "2", @(15, 42)}
-                Neg {NEG, "-", @(15, 53)}
-                  Mul {MUL, "*", @(15, 49)}
-                    IntLiteral {INT_LITERAL, "3", @(15, 47)}
-                    IntLiteral {INT_LITERAL, "2", @(15, 51)}
-                  IntLiteral {INT_LITERAL, "1", @(15, 55)}
-              Mul {MUL, "*", @(15, 66)}
-                FunCall {IDENTIFIER, "sqr", @(15, 59)}
-                  ExpressionList 
-                    IntLiteral {INT_LITERAL, "3", @(15, 63)}
-                Plus {PLUS, "+", @(16, 11)}
-                  Mul {MUL, "*", @(15, 71)}
-                    IntLiteral {INT_LITERAL, "5", @(15, 69)}
-                    IntLiteral {INT_LITERAL, "2", @(16, 9)}
-                  IntLiteral {INT_LITERAL, "1", @(16, 13)}
-              Mul {MUL, "*", @(16, 20)}
-                IntLiteral {INT_LITERAL, "8", @(16, 18)}
-                IntLiteral {INT_LITERAL, "7", @(16, 22)}
-              FunCall {IDENTIFIER, "sqr", @(16, 25)}
-                ExpressionList 
-                  IntLiteral {INT_LITERAL, "4", @(16, 29)}
-              Less {LESS, "<", @(16, 40)}
-                Plus {PLUS, "+", @(16, 36)}
-                  IntLiteral {INT_LITERAL, "2", @(16, 34)}
-                  IntLiteral {INT_LITERAL, "3", @(16, 38)}
-                Mul {MUL, "*", @(16, 44)}
-                  IntLiteral {INT_LITERAL, "2", @(16, 42)}
-                  IntLiteral {INT_LITERAL, "3", @(16, 46)}
-              Plus {PLUS, "+", @(16, 52)}
-                IntLiteral {INT_LITERAL, "-1", @(16, 49)}
-                Mul {MUL, "*", @(16, 56)}
-                  IntLiteral {INT_LITERAL, "2", @(16, 54)}
-                  IntLiteral {INT_LITERAL, "2", @(16, 58)}
-              FunCall {IDENTIFIER, "sqr", @(16, 61)}
-                ExpressionList 
-                  IntLiteral {INT_LITERAL, "2", @(16, 65)}
-              Mul {MUL, "*", @(17, 13)}
-                Plus {PLUS, "+", @(16, 72)}
-                  IntLiteral {INT_LITERAL, "3", @(16, 70)}
-                  IntLiteral {INT_LITERAL, "4", @(17, 9)}
-                IntLiteral {INT_LITERAL, "2", @(17, 15)}
-              Plus {PLUS, "+", @(17, 23)}
-                IntLiteral {INT_LITERAL, "-10", @(17, 19)}
-                IntLiteral {INT_LITERAL, "17", @(17, 25)}
-              Mul {MUL, "*", @(17, 32)}
-                IntLiteral {INT_LITERAL, "3", @(17, 30)}
-                Plus {PLUS, "+", @(17, 37)}
-                  IntLiteral {INT_LITERAL, "2", @(17, 35)}
-                  IntLiteral {INT_LITERAL, "1", @(17, 39)}
-              Plus {PLUS, "+", @(17, 45)}
-                IntLiteral {INT_LITERAL, "7", @(17, 43)}
-                Mul {MUL, "*", @(17, 49)}
-                  IntLiteral {INT_LITERAL, "3", @(17, 47)}
-                  FunCall {IDENTIFIER, "sqr", @(17, 51)}
-                    ExpressionList 
-                      IntLiteral {INT_LITERAL, "2", @(17, 55)}
-        Assignment {ASSIGN, "=", @(18, 9)}
-          Identifier {IDENTIFIER, "sum", @(18, 5)}
-          IntLiteral {INT_LITERAL, "0", @(18, 11)}
-        Assignment {ASSIGN, "=", @(19, 7)}
-          Identifier {IDENTIFIER, "i", @(19, 5)}
-          IntLiteral {INT_LITERAL, "0", @(19, 9)}
-        While {WHILE, "while", @(20, 5)}
-          Less {LESS, "<", @(20, 14)}
-            Identifier {IDENTIFIER, "i", @(20, 12)}
-            FunCall {IDENTIFIER, "size", @(20, 16)}
-              ExpressionList 
-                Identifier {IDENTIFIER, "array", @(20, 21)}
+              IntLiteral {INT_LITERAL, "161", @(30, 10)}
+              IntLiteral {INT_LITERAL, "8364", @(30, 15)}
+              IntLiteral {INT_LITERAL, "115", @(30, 21)}
+              IntLiteral {INT_LITERAL, "116", @(30, 26)}
+              IntLiteral {INT_LITERAL, "101", @(30, 31)}
+              IntLiteral {INT_LITERAL, "32", @(30, 36)}
+              IntLiteral {INT_LITERAL, "110", @(30, 40)}
+              IntLiteral {INT_LITERAL, "105", @(30, 45)}
+              IntLiteral {INT_LITERAL, "241", @(30, 50)}
+              IntLiteral {INT_LITERAL, "111", @(30, 55)}
+              IntLiteral {INT_LITERAL, "32", @(30, 60)}
+              IntLiteral {INT_LITERAL, "8364", @(30, 64)}
+              IntLiteral {INT_LITERAL, "115", @(31, 10)}
+              IntLiteral {INT_LITERAL, "116", @(31, 15)}
+              IntLiteral {INT_LITERAL, "225", @(31, 20)}
+              IntLiteral {INT_LITERAL, "32", @(31, 25)}
+              IntLiteral {INT_LITERAL, "98", @(31, 29)}
+              IntLiteral {INT_LITERAL, "105", @(31, 33)}
+              IntLiteral {INT_LITERAL, "101", @(31, 38)}
+              IntLiteral {INT_LITERAL, "110", @(31, 43)}
+              IntLiteral {INT_LITERAL, "32", @(31, 48)}
+              IntLiteral {INT_LITERAL, "209", @(31, 52)}
+              IntLiteral {INT_LITERAL, "111", @(31, 57)}
+              IntLiteral {INT_LITERAL, "241", @(31, 62)}
+              IntLiteral {INT_LITERAL, "111", @(31, 67)}
+              IntLiteral {INT_LITERAL, "33", @(32, 10)}
+              IntLiteral {INT_LITERAL, "10", @(32, 14)}
+        Assignment {ASSIGN, "=", @(33, 7)}
+          Identifier {IDENTIFIER, "i", @(33, 5)}
+          IntLiteral {INT_LITERAL, "0", @(33, 9)}
+        Assignment {ASSIGN, "=", @(34, 7)}
+          Identifier {IDENTIFIER, "n", @(34, 5)}
+          FunCall {IDENTIFIER, "size", @(34, 9)}
+            ExpressionList 
+              Identifier {IDENTIFIER, "s", @(34, 14)}
+        While {WHILE, "while", @(35, 5)}
+          Less {LESS, "<", @(35, 14)}
+            Identifier {IDENTIFIER, "i", @(35, 12)}
+            Identifier {IDENTIFIER, "n", @(35, 16)}
           StatementList 
-            Assignment {ASSIGN, "=", @(21, 11)}
-              Identifier {IDENTIFIER, "x", @(21, 9)}
-              FunCall {IDENTIFIER, "get", @(21, 13)}
+            StatementFunCall 
+              FunCall {IDENTIFIER, "assert", @(36, 9)}
                 ExpressionList 
-                  Identifier {IDENTIFIER, "array", @(21, 17)}
-                  Identifier {IDENTIFIER, "i", @(21, 24)}
-            Inc {INC, "inc", @(22, 9)}
-              Identifier {IDENTIFIER, "i", @(22, 13)}
-            If {IF, "if", @(23, 9)}
-              Equals {EQUALS, "==", @(23, 15)}
-                Identifier {IDENTIFIER, "x", @(23, 13)}
-                IntLiteral {INT_LITERAL, "99", @(23, 18)}
-              StatementList 
-                Break {BREAK, "break", @(24, 13)}
-              ElseIfList 
-              Else 
-            If {IF, "if", @(26, 9)}
-              LessEqual {LESS_EQUAL, "<=", @(26, 15)}
-                Identifier {IDENTIFIER, "x", @(26, 13)}
-                IntLiteral {INT_LITERAL, "2", @(26, 18)}
-              StatementList 
-              ElseIfList 
-              Else {ELSE, "else", @(27, 11)}
-                StatementList 
-                  Assignment {ASSIGN, "=", @(28, 15)}
-                    Identifier {IDENTIFIER, "j", @(28, 13)}
-                    IntLiteral {INT_LITERAL, "1", @(28, 17)}
-                  Do {DO, "do", @(29, 13)}
-                    NotEquals {NOTEQUALS, "<>", @(38, 28)}
-                      Plus {PLUS, "+", @(38, 24)}
-                        IntLiteral {INT_LITERAL, "2", @(38, 22)}
-                        IntLiteral {INT_LITERAL, "2", @(38, 26)}
-                      IntLiteral {INT_LITERAL, "5", @(38, 31)}
-                    StatementList 
-                      Inc {INC, "inc", @(30, 17)}
-                        Identifier {IDENTIFIER, "j", @(30, 21)}
-                      If {IF, "if", @(31, 17)}
-                        More {MORE, ">", @(31, 23)}
-                          Identifier {IDENTIFIER, "j", @(31, 21)}
-                          Identifier {IDENTIFIER, "x", @(31, 25)}
-                        StatementList 
-                          Break {BREAK, "break", @(32, 21)}
-                        ElseIfList 
-                          ElseIf {ELIF, "elif", @(33, 19)}
-                            Equals {EQUALS, "==", @(33, 27)}
-                              Identifier {IDENTIFIER, "x", @(33, 25)}
-                              Identifier {IDENTIFIER, "j", @(33, 30)}
-                            StatementList 
-                              Assignment {ASSIGN, "=", @(34, 25)}
-                                Identifier {IDENTIFIER, "sum", @(34, 21)}
-                                Plus {PLUS, "+", @(34, 31)}
-                                  Identifier {IDENTIFIER, "sum", @(34, 27)}
-                                  Identifier {IDENTIFIER, "x", @(34, 33)}
-                          ElseIf {ELIF, "elif", @(35, 19)}
-                            Equals {EQUALS, "==", @(35, 31)}
-                              Remainder {REMAINDER, "%", @(35, 27)}
-                                Identifier {IDENTIFIER, "x", @(35, 25)}
-                                Identifier {IDENTIFIER, "j", @(35, 29)}
-                              IntLiteral {INT_LITERAL, "0", @(35, 34)}
-                            StatementList 
-                              Break {BREAK, "break", @(36, 21)}
-                        Else 
-        If {IF, "if", @(41, 5)}
-          Equals {EQUALS, "==", @(41, 13)}
-            Identifier {IDENTIFIER, "sum", @(41, 9)}
-            IntLiteral {INT_LITERAL, "88", @(41, 16)}
-          StatementList 
-            FunCall {IDENTIFIER, "prints", @(42, 9)}
-              ExpressionList 
-                StringLiteral {STRING_LITERAL, ""The program works fine!\n"", @(42, 16)}
-          ElseIfList 
-          Else {ELSE, "else", @(43, 7)}
-            StatementList 
-              FunCall {IDENTIFIER, "prints", @(44, 9)}
-                ExpressionList 
-                  StringLiteral {STRING_LITERAL, ""This program sucks!\n"", @(44, 16)}
-
+                  FunCall {IDENTIFIER, "get", @(36, 16)}
+                    ExpressionList 
+                      Identifier {IDENTIFIER, "a", @(36, 20)}
+                      Identifier {IDENTIFIER, "i", @(36, 23)}
+                  FunCall {IDENTIFIER, "get", @(36, 27)}
+                    ExpressionList 
+                      Identifier {IDENTIFIER, "s", @(36, 31)}
+                      Identifier {IDENTIFIER, "i", @(36, 34)}
+                  StringLiteral {STRING_LITERAL, ""error in string literal"", @(36, 38)}
+            Inc {INC, "inc", @(37, 9)}
+              Identifier {IDENTIFIER, "i", @(37, 13)}
+        StatementFunCall 
+          FunCall {IDENTIFIER, "printi", @(39, 5)}
+            ExpressionList 
+              Identifier {IDENTIFIER, "fails", @(39, 12)}
+        StatementFunCall 
+          FunCall {IDENTIFIER, "prints", @(40, 5)}
+            ExpressionList 
+              StringLiteral {STRING_LITERAL, "" assertion failure(s) found."", @(40, 12)}
+        StatementFunCall 
+          FunCall {IDENTIFIER, "println", @(41, 5)}
+            ExpressionList 
+        StatementFunCall 
+          FunCall {IDENTIFIER, "prints", @(42, 5)}
+            ExpressionList 
+              Identifier {IDENTIFIER, "a", @(42, 12)}
 
 
 

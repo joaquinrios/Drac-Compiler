@@ -242,7 +242,7 @@
   local.set $x
   local.get $x
   call $x
-  
+  drop
   i32.const 0
   call $new
   local.set $_temp

@@ -23,7 +23,6 @@
   local.set $start
   local.get $array
   call $size
-  
   i32.const 1
   i32.sub
   local.set $finish
@@ -37,14 +36,12 @@ block $00000
   local.get $array
   local.get $start
   call $get
-  
   local.set $temp
   local.get $array
   local.get $start
   local.get $array
   local.get $finish
   call $get
-  
   call $set
   drop
   local.get $array
@@ -140,7 +137,7 @@ block $00002
 end
   local.get $result
   call $reverse
-  
+  drop
   local.get $result
   return
   i32.const 0
@@ -251,7 +248,6 @@ block $00004
   call $prints
   drop
   call $readi
-  
   local.set $num
   i32.const 0
   call $new
@@ -457,7 +453,6 @@ block $00004
   drop
   local.get $num
   call $binary
-  
   call $prints
   drop
   call $println
@@ -600,11 +595,9 @@ block $00004
   call $prints
   drop
   call $reads
-  
   local.set $option
   local.get $option
   call $size
-  
   i32.const 0
   i32.eq
   if
@@ -614,7 +607,6 @@ block $00004
   local.get $option
   i32.const 0
   call $get
-  
   local.set $option
   end
   local.get $option

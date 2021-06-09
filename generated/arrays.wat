@@ -28,7 +28,6 @@
   local.set $i
   local.get $a
   call $size
-  
   local.set $n
 block $00000
   loop $00001
@@ -73,7 +72,6 @@ block $00000
   local.get $a
   local.get $i
   call $get
-  
   call $printi
   drop
   local.get $i
@@ -102,7 +100,6 @@ end
   local.set $i
   local.get $a
   call $size
-  
   local.set $n
 block $00002
   loop $00003
@@ -115,7 +112,6 @@ block $00002
   local.get $a
   local.get $i
   call $get
-  
   i32.add
   local.set $sum
   local.get $i
@@ -141,13 +137,11 @@ end
   local.get $a
   i32.const 0
   call $get
-  
   local.set $max
   i32.const 0
   local.set $i
   local.get $a
   call $size
-  
   local.set $n
 block $00004
   loop $00005
@@ -159,7 +153,6 @@ block $00004
   local.get $a
   local.get $i
   call $get
-  
   local.set $x
   local.get $x
   local.get $max
@@ -191,7 +184,6 @@ end
   (local $swap i32)
   local.get $a
   call $size
-  
   local.set $n
   i32.const 0
   local.set $i
@@ -222,19 +214,16 @@ block $00008
   local.get $a
   local.get $j
   call $get
-  
   local.get $a
   local.get $j
   i32.const 1
   i32.add
   call $get
-  
   i32.gt_s
   if
   local.get $a
   local.get $j
   call $get
-  
   local.set $t
   local.get $a
   local.get $j
@@ -243,7 +232,6 @@ block $00008
   i32.const 1
   i32.add
   call $get
-  
   call $set
   drop
   local.get $a
@@ -287,6 +275,26 @@ end
   i32.const 0
   call $new
   local.set $_temp
+  local.get $_temp
+  local.get $_temp
+  local.get $_temp
+  local.get $_temp
+  local.get $_temp
+  local.get $_temp
+  local.get $_temp
+  local.get $_temp
+  local.get $_temp
+  local.get $_temp
+  local.get $_temp
+  local.get $_temp
+  local.get $_temp
+  local.get $_temp
+  local.get $_temp
+  local.get $_temp
+  local.get $_temp
+  local.get $_temp
+  local.get $_temp
+  local.get $_temp
   local.get $_temp
   i32.const 73
   call $add
@@ -449,16 +457,14 @@ end
   drop
   local.get $array
   call $print_array
-  
+  drop
   call $println
   drop
   local.get $array
   call $sum_array
-  
   local.set $sum
   local.get $array
   call $max_array
-  
   local.set $max
   i32.const 0
   call $new
@@ -666,7 +672,7 @@ end
   drop
   local.get $array
   call $sort_array
-  
+  drop
   i32.const 0
   call $new
   local.set $_temp
@@ -766,7 +772,7 @@ end
   drop
   local.get $array
   call $print_array
-  
+  drop
   call $println
   drop
   i32.const 0

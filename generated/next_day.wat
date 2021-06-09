@@ -63,7 +63,6 @@
   if
   local.get $y
   call $is_leap_year
-  
   if
   i32.const 29
   local.set $result
@@ -125,7 +124,6 @@
   local.get $y
   local.get $m
   call $number_of_days_in_month
-  
   i32.eq
   if
   local.get $m
@@ -135,6 +133,9 @@
   i32.const 0
   call $new
   local.set $_temp
+  local.get $_temp
+  local.get $_temp
+  local.get $_temp
   local.get $_temp
   local.get $y
   i32.const 1
@@ -153,6 +154,9 @@
   i32.const 0
   call $new
   local.set $_temp
+  local.get $_temp
+  local.get $_temp
+  local.get $_temp
   local.get $_temp
   local.get $y
   call $add
@@ -172,6 +176,9 @@
   i32.const 0
   call $new
   local.set $_temp
+  local.get $_temp
+  local.get $_temp
+  local.get $_temp
   local.get $_temp
   local.get $y
   call $add
@@ -340,12 +347,10 @@
   local.get $m
   local.get $d
   call $next_day
-  
   local.set $next
   local.get $next
   i32.const 0
   call $get
-  
   call $printi
   drop
   i32.const 39
@@ -354,7 +359,6 @@
   local.get $next
   i32.const 1
   call $get
-  
   call $printi
   drop
   i32.const 39
@@ -363,7 +367,6 @@
   local.get $next
   i32.const 2
   call $get
-  
   call $printi
   drop
   call $println
@@ -378,22 +381,22 @@
   i32.const 2
   i32.const 28
   call $print_next_day
-  
+  drop
   i32.const 2021
   i32.const 2
   i32.const 13
   call $print_next_day
-  
+  drop
   i32.const 2021
   i32.const 2
   i32.const 28
   call $print_next_day
-  
+  drop
   i32.const 2021
   i32.const 12
   i32.const 31
   call $print_next_day
-  
+  drop
   i32.const 0
   return
 )

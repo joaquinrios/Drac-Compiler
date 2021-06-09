@@ -61,6 +61,7 @@ namespace Drac {
     class Remainder: Node {}
     class Return: Node {}
     class Empty: Node {}
+    class StatementFunCall: Node {}
     class StatementList: Node {}
     class StringLiteral: Node {}
     class True: Node {}

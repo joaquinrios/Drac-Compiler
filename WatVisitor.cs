@@ -208,6 +208,9 @@ namespace Drac {
 
     public string Visit(Array node) {
       var sb = new StringBuilder();
+      foreach (var _ in node[0]){
+        sb.Append("  local.get $_temp\n");
+      }
       foreach (var expression in node[0]) {
         sb.Append(Visit((dynamic) expression));
         sb.Append("  call $add\n");
@@ -224,8 +227,7 @@ namespace Drac {
 
     public string Visit(If node) {
       var sb = new StringBuilder();
-      foreach (var _ in node[2])
-      {
+      foreach (var _ in node[2]) {
         sb.Append("  end\n");
       }
       return 
@@ -323,15 +325,16 @@ namespace Drac {
 
     public string Visit(FunCall node) {
       var functionName = node.AnchorToken.Lexeme;
-      var labelDrop = "";
-      if (FunctionsThatDrop.Contains(functionName)) {
-        labelDrop = "drop";
-      }
 
       return 
       VisitChildren(node[0])
-      + $"  call ${functionName}\n"
-      + $"  {labelDrop}\n";
+      + $"  call ${functionName}\n";
+    }
+
+    public string Visit(StatementFunCall node) {
+      return 
+      VisitChildren(node)
+      + "  drop\n";
     }
 
     public string Visit(Break node) {
