@@ -62,7 +62,7 @@ namespace Drac {
                 var sc = str.Substring(i+2, i+6);
                 Console.WriteLine(sc);
                 var codePoint = int.Parse(sc, System.Globalization.NumberStyles.HexNumber);
-                result.Add(codePoint);
+                result.Add(sc);
                 i += 2;
                 break;
               
