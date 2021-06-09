@@ -676,7 +676,6 @@
   drop
   i32.const 0
   i32.const 0
-  i32.add
   i32.const 0
   call $new
   local.set $_temp
@@ -781,9 +780,6 @@
   drop
   i32.const 5
   i32.const 5
-  i32.add
-  i32.add
-  i32.add
   i32.const 0
   call $new
   local.set $_temp
@@ -888,8 +884,6 @@
   drop
   i32.const 7
   i32.const 7
-  i32.add
-  i32.add
   i32.const 0
   call $new
   local.set $_temp

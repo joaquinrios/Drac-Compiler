@@ -67,7 +67,7 @@ namespace Drac {
                 var sc = temp.Substring(2, 6);
                 var codePoint = int.Parse(sc, System.Globalization.NumberStyles.HexNumber);
                 result.Add(codePoint);
-                move = 6;
+                move = 8;
                 break;
               
               default:
@@ -90,6 +90,7 @@ namespace Drac {
         }
 
       }
+
       return result;
     }
   }
@@ -467,9 +468,13 @@ namespace Drac {
     }
 
     public string Visit(Plus node) {
-      return
-      VisitChildren(node)
-      + "  i32.add\n";
+      if (node.ChildrenLength > 1) {
+       return
+        VisitChildren(node)
+        + "  i32.add\n";
+      }
+      return VisitChildren(node);
+      
     }
 
     public string Visit(Neg node) {

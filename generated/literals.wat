@@ -1390,41 +1390,11 @@
   local.get $_temp
   local.get $_temp
   local.get $_temp
-  local.get $_temp
-  local.get $_temp
-  local.get $_temp
-  local.get $_temp
-  local.get $_temp
-  local.get $_temp
-  local.get $_temp
-  local.get $_temp
-  local.get $_temp
-  local.get $_temp
-  local.get $_temp
-  local.get $_temp
-  local.get $_temp
-  local.get $_temp
   i32.const 161
   call $add
   drop
 
-  i32.const 65
-  call $add
-  drop
-
-  i32.const 49
-  call $add
-  drop
-
   i32.const 8364
-  call $add
-  drop
-
-  i32.const 65
-  call $add
-  drop
-
-  i32.const 67
   call $add
   drop
 
@@ -1456,14 +1426,6 @@
   call $add
   drop
 
-  i32.const 70
-  call $add
-  drop
-
-  i32.const 49
-  call $add
-  drop
-
   i32.const 111
   call $add
   drop
@@ -1476,14 +1438,6 @@
   call $add
   drop
 
-  i32.const 65
-  call $add
-  drop
-
-  i32.const 67
-  call $add
-  drop
-
   i32.const 115
   call $add
   drop
@@ -1493,14 +1447,6 @@
   drop
 
   i32.const 225
-  call $add
-  drop
-
-  i32.const 69
-  call $add
-  drop
-
-  i32.const 49
   call $add
   drop
 
@@ -1532,27 +1478,11 @@
   call $add
   drop
 
-  i32.const 68
-  call $add
-  drop
-
-  i32.const 49
-  call $add
-  drop
-
   i32.const 111
   call $add
   drop
 
   i32.const 241
-  call $add
-  drop
-
-  i32.const 70
-  call $add
-  drop
-
-  i32.const 49
   call $add
   drop
 
@@ -1689,6 +1619,12 @@
   local.get $s
   call $size
   local.set $n
+  local.get $a
+  call $size
+  call $printi
+  drop
+  call $println
+  drop
 block $00000
   loop $00001
   local.get $i
@@ -1696,6 +1632,11 @@ block $00000
   i32.lt_s
   i32.eqz
   br_if $00000
+  local.get $i
+  call $printi
+  drop
+  call $println
+  drop
   local.get $a
   local.get $i
   call $get
