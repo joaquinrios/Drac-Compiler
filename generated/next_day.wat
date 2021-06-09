@@ -222,12 +222,6 @@
   local.get $_temp
   local.get $_temp
   local.get $_temp
-  local.get $_temp
-  local.get $_temp
-  i32.const 34
-  call $add
-  drop
-
   i32.const 84
   call $add
   drop
@@ -284,10 +278,6 @@
   call $add
   drop
 
-  i32.const 34
-  call $add
-  drop
-
 
   call $prints
   drop
@@ -314,12 +304,6 @@
   local.get $_temp
   local.get $_temp
   local.get $_temp
-  local.get $_temp
-  local.get $_temp
-  i32.const 34
-  call $add
-  drop
-
   i32.const 32
   call $add
   drop
@@ -333,10 +317,6 @@
   drop
 
   i32.const 32
-  call $add
-  drop
-
-  i32.const 34
   call $add
   drop
 

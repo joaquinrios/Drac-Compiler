@@ -26,14 +26,59 @@ using System.Collections.Generic;
 namespace Drac {
   class CodePoints {
     public static IList<int> AsCodePoints(String str) {
-        var result = new List<int>(str.Length);
-        for (var i = 0; i < str.Length; i++) {
-            result.Add(char.ConvertToUtf32(str, i));
-            if (char.IsHighSurrogate(str, i)) {
-                i++;
+      str = str.Substring(1, str.Length - 2);
+      var result = new List<int>(str.Length);
+      for (var i = 0; i < str.Length; i++) {
+        var isSpecialCharacter = str[i] == '\\';
+        if (isSpecialCharacter) {
+          if (i+1 < str.Length){
+            var nextCharacter = str[i+1];
+            switch (nextCharacter) {
+              case 'n':
+                result.Add(10);
+                i += 2;
+                break;
+              case 'r':
+                result.Add(13);
+                i += 2;
+                break;
+              case 't':
+                result.Add(9);
+                i += 2;
+                break;
+              case '\\':
+                result.Add(92);
+                i += 2;
+                break;
+              case '\'':
+                result.Add(39);
+                i += 2;
+                break;
+              case '\"':
+                result.Add(34);
+                i += 2;
+                break;
+              case 'u':
+                var sc = str.Substring(i+2, i+6);
+                Console.WriteLine(sc);
+                var codePoint = int.Parse(sc, System.Globalization.NumberStyles.HexNumber);
+                result.Add(codePoint);
+                i += 2;
+                break;
+              
+              default:
+                break;
             }
+          } 
+          
+        } else {
+          result.Add(char.ConvertToUtf32(str, i));
+          if (char.IsHighSurrogate(str, i)) {
+            i++;
+          }
         }
-        return result;
+      }
+      return result;
     }
   }
   class WatVisitor {

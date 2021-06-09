@@ -108,7 +108,7 @@ namespace Drac {
                     var parser = new Parser(
                         new Scanner(input).Scan().GetEnumerator());
                     var program = parser.Program();
-                    Console.WriteLine(program.ToStringTree());
+                    
                     Console.Write("Syntax OK\n");
 
                     var semantic1 = new FirstSemanticVisitor();
