@@ -1619,12 +1619,6 @@
   local.get $s
   call $size
   local.set $n
-  local.get $a
-  call $size
-  call $printi
-  drop
-  call $println
-  drop
 block $00000
   loop $00001
   local.get $i
@@ -1632,11 +1626,6 @@ block $00000
   i32.lt_s
   i32.eqz
   br_if $00000
-  local.get $i
-  call $printi
-  drop
-  call $println
-  drop
   local.get $a
   local.get $i
   call $get
